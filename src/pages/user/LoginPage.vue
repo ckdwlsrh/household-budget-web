@@ -2,7 +2,7 @@
   <div>
     <h3>LOGINPAGE</h3>
     <div>
-      <input type="text" placeholder="e-mail" v-model="email" required />
+      <input type="email" placeholder="e-mail" v-model="email" required />
       <input type="password" placeholder="password" v-model="password" required />
       <button @click="loginHandler">로그인</button>
       <button @click="goToSignUp">회원가입</button>
@@ -30,8 +30,17 @@ const getUsers = async () => {
   }
 }
 
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
+}
+
 const loginHandler = async () => {
   try {
+    if (!isValidEmail(email)) {
+      alert('이메일 형식 틀림')
+      return
+    }
     await getUsers()
 
     const existUser = users.value.find(
