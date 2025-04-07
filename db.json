@@ -1,0 +1,42 @@
+{
+  "user": {
+    "id": "u123",
+    "email": "hamzzang@example.com",
+    "password": "$2a$10$AbcdEfghIjklMnopQrstuVwxyZ",
+    "username": "고창진",
+    "role": "user"
+  },
+  "budgetBook": [
+    {
+      "id": "b001",
+      "userId": "u123",
+      "createdDate": "2025-04-01T09:00:00Z",
+      "updatedDate": "2025-04-01T09:00:00Z",
+      "amount": 3000000,
+      "transactionType": "income",
+      "category": "월급",
+      "memo": "4월 급여"
+    },
+    {
+      "id": "b002",
+      "userId": "u123",
+      "createdDate": "2025-04-03T12:30:00Z",
+      "updatedDate": "2025-04-03T12:30:00Z",
+      "amount": 15000,
+      "transactionType": "expense",
+      "category": "식비",
+      "memo": "점심 김밥천국"
+    },
+    {
+      "id": "b003",
+      "userId": "u123",
+      "createdDate": "2025-04-05T18:45:00Z",
+      "updatedDate": "2025-04-05T18:45:00Z",
+      "amount": 30000,
+      "transactionType": "expense",
+      "category": "교통비",
+      "memo": "버스 교통카드 충전"
+    }
+  ],
+  "category": ["월급", "용돈", "이자", "식비", "교통비", "유흥", "공과금"]
+}
