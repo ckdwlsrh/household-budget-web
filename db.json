@@ -1,11 +1,13 @@
 {
-  "user": {
-    "id": "u123",
-    "email": "hamzzang@example.com",
-    "password": "$2a$10$AbcdEfghIjklMnopQrstuVwxyZ",
-    "username": "고창진",
-    "role": "user"
-  },
+  "user": [
+    {
+      "id": "u123",
+      "email": "hamzzang@example.com",
+      "password": "$2a$10$AbcdEfghIjklMnopQrstuVwxyZ",
+      "username": "고창진",
+      "role": "user"
+    }
+  ],
   "budgetBook": [
     {
       "id": "b001",
@@ -39,12 +41,33 @@
     }
   ],
   "category": [
-    { "id": "c001", "item": "월급" },
-    { "id": "c002", "item": "용돈" },
-    { "id": "c003", "item": "이자" },
-    { "id": "c004", "item": "식비" },
-    { "id": "c005", "item": "교통비" },
-    { "id": "c006", "item": "유흥" },
-    { "id": "c007", "item": "공과금" }
+    {
+      "id": "c001",
+      "item": "월급"
+    },
+    {
+      "id": "c002",
+      "item": "용돈"
+    },
+    {
+      "id": "c003",
+      "item": "이자"
+    },
+    {
+      "id": "c004",
+      "item": "식비"
+    },
+    {
+      "id": "c005",
+      "item": "교통비"
+    },
+    {
+      "id": "c006",
+      "item": "유흥"
+    },
+    {
+      "id": "c007",
+      "item": "공과금"
+    }
   ]
 }
