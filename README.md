@@ -1,4 +1,4 @@
-[# household-budget-web
+# household-budget-web
 ---
 
 # 1. 요구사항 명세
