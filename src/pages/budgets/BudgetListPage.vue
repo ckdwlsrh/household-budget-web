@@ -33,7 +33,7 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 const transactions = ref([])
-const fetchTranactions = async () => {
+const fetchTransactions = async () => {
   try {
     const response = await axios.get('api/budgetBook')
     transactions.value = response.data
@@ -48,7 +48,7 @@ const handlrDetail = (itemId) => {
 }
 
 onMounted(() => {
-  fetchTranactions()
+  fetchTransactions()
 })
 </script>
 

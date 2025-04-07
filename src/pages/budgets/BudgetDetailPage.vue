@@ -12,7 +12,7 @@
     <p>거래 정보를 불러오는 중...</p>
   </div>
   <div>
-    <button class="btn btn-primary" @click="back">뒤로가기</button>
+    <button class="btn btn-primary" @click="goBack">뒤로가기</button>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ const router = useRouter()
 const userId = route.params.id
 const transactions = ref([])
 
-const fetchTranactions = async () => {
+const fetchTransaction = async () => {
   try {
     const item = await axios.get(`/api/budgetBook/${userId}`)
     transactions.value = item.data
@@ -35,13 +35,13 @@ const fetchTranactions = async () => {
   }
 }
 
-const back = () => {
+const goBack = () => {
   router.push('/')
 }
 
 console.log('거래 아이디:', userId)
 
 onMounted(() => {
-  fetchTranactions()
+  fetchTransaction()
 })
 </script>
