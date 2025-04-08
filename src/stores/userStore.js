@@ -4,13 +4,14 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
-  const name = ref('')
+  const username = ref('')
   const email = ref('')
   const password = ref('')
   const users = ref([])
   const router = useRouter()
   const checkPassword = ref('')
   const agree = ref(false)
+  const loggedUser = ref(null)
 
   const getUsers = async () => {
     try {
@@ -41,7 +42,8 @@ export const useUserStore = defineStore('user', () => {
 
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
-        router.push('/home')
+        localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
+        router.push('/profileEdit')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
       }
@@ -51,7 +53,7 @@ export const useUserStore = defineStore('user', () => {
   }
   const signupHandler = async () => {
     try {
-      if (!name.value || !email.value || !password.value || !checkPassword.value) {
+      if (!username.value || !email.value || !password.value || !checkPassword.value) {
         alert('모든 항목을 입력해주세요.')
         return
       }
@@ -80,13 +82,13 @@ export const useUserStore = defineStore('user', () => {
       }
 
       await axios.post('/api/user', {
-        name: name.value,
+        username: username.value,
         email: email.value,
         password: password.value,
         role: 'user',
       })
 
-      name.value = ''
+      username.value = ''
       email.value = ''
       password.value = ''
       checkPassword.value = ''
@@ -99,6 +101,15 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const getLoggedUser = () => {
+    const storedUser = localStorage.getItem('loggedUser')
+    if (storedUser) {
+      loggedUser.value = JSON.parse(storedUser)
+    } else {
+      alert('로그인을 해주세요')
+    }
+  }
+
   const goToLogin = () => {
     router.push('/login')
   }
@@ -107,12 +118,13 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return {
-    name,
+    username,
     email,
     password,
     checkPassword,
     agree,
     users,
+    loggedUser,
 
     isValidEmail,
     getUsers,
@@ -120,5 +132,6 @@ export const useUserStore = defineStore('user', () => {
     signupHandler,
     goToLogin,
     goToSignUp,
+    getLoggedUser,
   }
 })
