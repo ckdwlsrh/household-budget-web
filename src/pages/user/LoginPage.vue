@@ -8,24 +8,24 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="exmapleEmail">Email</label>
+          <label>Email</label>
           <input
             type="email"
             class="form-control"
             placeholder="e-mail"
-            v-model="email"
-            @keyup.enter="loginHandler"
+            v-model="userStore.email"
+            @keyup.enter="userStore.loginHandler"
             required
           />
         </div>
         <div class="form-group">
-          <label for="examplePasswod">Password</label>
+          <label>Password</label>
           <input
             type="password"
             class="form-control"
             placeholder="password"
-            v-model="password"
-            @keyup.enter="loginHandler"
+            v-model="userStore.password"
+            @keyup.enter="userStore.loginHandler"
             required
           />
         </div>
@@ -34,7 +34,7 @@
           <button
             type="submit"
             class="btn btn-block mybtn btn-primary tx-tfm"
-            @click.prevent="loginHandler"
+            @click.prevent="userStore.loginHandler"
           >
             로그인
           </button>
@@ -47,7 +47,7 @@
         </div>
         <div class="form-group">
           <p class="text-center">
-            <button class="btn btn-block mybtn btn-primary tx-tfm" @click="goToSignUp">
+            <button class="btn btn-block mybtn btn-primary tx-tfm" @click="userStore.goToSignUp">
               회원가입
             </button>
           </p>
@@ -58,56 +58,9 @@
 </template>
 
 <script setup>
-import { ref, toRaw } from 'vue'
-import { useRouter } from 'vue-router'
-import axios from 'axios'
+import { useUserStore } from '@/stores/userStore'
 
-const router = useRouter()
-
-const email = ref('')
-const password = ref('')
-const users = ref([])
-
-const getUsers = async () => {
-  try {
-    const response = await axios.get('/api/user')
-    users.value = response.data
-  } catch (error) {
-    console.error('오류 발생', error)
-  }
-}
-
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email)
-}
-
-const loginHandler = async () => {
-  try {
-    if (!isValidEmail(email.value)) {
-      alert('이메일 형식 틀림')
-      return
-    }
-    await getUsers()
-
-    const existUser = users.value.find(
-      (user) => user.email === email.value && user.password === password.value,
-    )
-
-    if (existUser) {
-      console.log('로그인 성공,', toRaw(existUser))
-      router.push('/home')
-    } else {
-      alert('이메일 또는 비밀번호가 일치하지 않습니다.')
-    }
-  } catch (error) {
-    console.error('오류 발생: ', error)
-  }
-}
-
-const goToSignUp = () => {
-  router.push('/signup')
-}
+const userStore = useUserStore()
 </script>
 
 <style scoped>
