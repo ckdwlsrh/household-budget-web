@@ -4,7 +4,7 @@
       <div class="myform">
         <div class="mb-3">
           <div class="col-md-12 text-center">
-            <h1>Join</h1>
+            <h1>SignUp</h1>
           </div>
         </div>
         <div class="form-group">
@@ -19,7 +19,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="exmapleEmail">이메일</label>
+          <label>이메일</label>
           <input
             type="email"
             class="form-control"
@@ -30,7 +30,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="examplePasswod">비밀번호</label>
+          <label>비밀번호</label>
           <input
             type="password"
             class="form-control"
@@ -66,7 +66,7 @@
           </button>
         </div>
         <div class="col-md-12">
-          <div class="login-or">
+          <div class="signup-or">
             <hr class="hr-or" />
             <span class="span-or">or</span>
           </div>
@@ -134,6 +134,7 @@ const signupHandler = async () => {
 
     if (!agree.value) {
       alert('개인 정보 사용에 동의해주세요.')
+      return
     }
 
     await getUsers()
@@ -150,6 +151,12 @@ const signupHandler = async () => {
       password: password.value,
       role: 'user',
     })
+
+    name.value = ''
+    email.value = ''
+    password.value = ''
+    checkPassword.value = ''
+    agree.value = false
 
     alert('회원가입이 완료되었습니다.')
     router.push('/login')
@@ -188,7 +195,7 @@ a {
   border-radius: 50px;
 }
 
-.login-or {
+.signup-or {
   position: relative;
   color: #aaa;
   margin: 10px 0;
