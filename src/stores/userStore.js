@@ -11,6 +11,7 @@ export const useUserStore = defineStore('user', () => {
   const router = useRouter()
   const checkPassword = ref('')
   const agree = ref(false)
+  const loggedUser = ref(null)
 
   const getUsers = async () => {
     try {
@@ -41,7 +42,8 @@ export const useUserStore = defineStore('user', () => {
 
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
-        router.push('/home')
+        localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
+        router.push('/profileEdit')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
       }
@@ -99,6 +101,15 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const getLoggedUser = () => {
+    const storedUser = localStorage.getItem('loggedUser')
+    if (storedUser) {
+      loggedUser.value = JSON.parse(storedUser)
+    } else {
+      alert('로그인을 해주세요')
+    }
+  }
+
   const goToLogin = () => {
     router.push('/login')
   }
@@ -113,6 +124,7 @@ export const useUserStore = defineStore('user', () => {
     checkPassword,
     agree,
     users,
+    loggedUser,
 
     isValidEmail,
     getUsers,
@@ -120,5 +132,6 @@ export const useUserStore = defineStore('user', () => {
     signupHandler,
     goToLogin,
     goToSignUp,
+    getLoggedUser,
   }
 })
