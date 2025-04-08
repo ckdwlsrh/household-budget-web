@@ -2,24 +2,30 @@
   <div class="container">
     <div v-if="userStore.loggedUser">
       <div>
-        <h1>내 정보</h1>
+        <p class="fs-1">내 정보</p>
       </div>
       <hr />
-      <div>{{ userStore.loggedUser.username }} 님</div>
-      <div>이메일 : {{ userStore.loggedUser.email }}</div>
       <div>
-        <div v-if="!editingPassword">
-          비밀번호 : {{ showPassword ? userStore.loggedUser.password : hidePassword }}
-          <button @click="toggleViewPassword">
-            {{ showPassword ? '숨기기' : '보기' }}
-          </button>
-          <button @click="editingPassword = true">수정</button>
-        </div>
-        <div v-else>
-          비밀번호 변경:
-          <input type="password" v-model="newPassword" placeholder="새 비밀번호 입력" />
-          <button @click="savePassword">저장</button>
-          <button @click="cancelEdit">취소</button>
+        <p class="fs-2">{{ userStore.loggedUser.username }}님, 안녕하세요</p>
+        <p class="fs-4">이메일 : {{ userStore.loggedUser.email }}</p>
+        <div>
+          <div v-if="!editingPassword">
+            <p class="fs-4">
+              비밀번호 : {{ showPassword ? userStore.loggedUser.password : hidePassword }}
+              <button @click="toggleViewPassword">
+                {{ showPassword ? '숨기기' : '보기' }}
+              </button>
+              <button @click="editingPassword = true">수정</button>
+            </p>
+          </div>
+          <div v-else>
+            <p class="fs-4">
+              비밀번호 변경:
+              <input type="password" v-model="newPassword" placeholder="새 비밀번호 입력" />
+              <button @click="savePassword">저장</button>
+              <button @click="cancelEdit">취소</button>
+            </p>
+          </div>
         </div>
       </div>
     </div>
