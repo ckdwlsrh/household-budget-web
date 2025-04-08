@@ -1,4 +1,5 @@
 <template>
+  <GoogleChart1 :income="incomeList" :expense="expenseList" />
   <div class="card-container">
     <div class="card">
       <div class="card-body">
@@ -17,7 +18,7 @@
           </thead>
           <tbody>
             <tr v-for="item in incomeList" :key="item.id">
-              <td>{{ item.updateDate }}</td>
+              <td>{{ item.updatedDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
               <td>{{ item.memo }}</td>
@@ -44,7 +45,7 @@
           </thead>
           <tbody>
             <tr v-for="item in expenseList" :key="item.id">
-              <td>{{ item.updateDate }}</td>
+              <td>{{ item.updatedDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
               <td>{{ item.memo }}</td>
@@ -63,6 +64,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import axios from 'axios'
+import GoogleChart1 from '@/components/google/GoogleChart1.vue'
 
 const incomeList = ref([])
 const expenseList = ref([])
