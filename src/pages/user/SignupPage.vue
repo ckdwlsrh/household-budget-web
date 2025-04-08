@@ -146,7 +146,7 @@ const signupHandler = async () => {
     }
 
     await axios.post('/api/user', {
-      name: name.value,
+      username: name.value,
       email: email.value,
       password: password.value,
       role: 'user',
