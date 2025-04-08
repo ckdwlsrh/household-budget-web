@@ -54,6 +54,7 @@ export const useUserStore = defineStore('user', () => {
       console.error('로그인 오류:', error)
     }
   }
+
   // 회원가입 핸들러
   const signupHandler = async () => {
     try {
@@ -138,6 +139,13 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 로그아웃 핸들러
+  const logoutHandler = () => {
+    localStorage.removeItem('loggedUser')
+    loggedUser.value = null
+    router.push('/login')
+  }
+
   // LoginPage로 이동
   const goToLogin = () => {
     router.push('/login')
@@ -165,5 +173,6 @@ export const useUserStore = defineStore('user', () => {
     goToSignUp,
     getLoggedUser,
     changePassword,
+    logoutHandler,
   }
 })
