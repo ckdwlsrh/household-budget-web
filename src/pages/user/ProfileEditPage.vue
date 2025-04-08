@@ -29,5 +29,59 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useUserStore } from '@/stores/userStore'
+import axios from 'axios'
+import { onMounted, ref, computed } from 'vue'
+
+const userStore = useUserStore()
+const editingPassword = ref(false)
+const newPassword = ref('')
+const showPassword = ref(false)
+
+const hidePassword = computed(() => '*'.repeat(userStore.loggedUser?.password?.length || 0))
+
+const toggleViewPassword = () => {
+  showPassword.value = !showPassword.value
+}
+
+const savePassword = async () => {
+  if (!newPassword.value) {
+    alert('새 비밀번호를 입력해주세요.')
+    return
+  }
+
+  const newVal = {
+    id: userStore.loggedUser.id,
+    email: userStore.loggedUser.email,
+    password: newPassword.value,
+    username: userStore.loggedUser.username,
+    role: 'user',
+  }
+
+  try {
+    await axios.put(`/api/user/${userStore.loggedUser.id}`, newVal)
+
+    userStore.loggedUser.password = newPassword.value
+    localStorage.setItem('loggedUser', JSON.stringify(userStore.loggedUser))
+
+    alert('비밀번호 변경 완료')
+    editingPassword.value = false
+    newPassword.value = ''
+    showPassword.value = false
+  } catch (error) {
+    console.error('에러 발생: ', error)
+    alert('비밀번호 변경에 실패')
+  }
+}
+
+const cancelEdit = () => {
+  newPassword.value = ''
+  editingPassword.value = false
+}
+
+onMounted(() => {
+  userStore.getLoggedUser()
+})
+</script>
 <style scoped></style>
