@@ -13,34 +13,42 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'homePage',
       component: HomePage,
     },
     {
       path: '/login',
+      name: 'loginPage',
       component: LoginPage,
     },
     {
       path: '/signup',
+      name: 'signupPage',
       component: SignupPage,
     },
     {
       path: '/profileEdit',
+      name: 'profileEditPage',
       component: ProfileEditPage,
     },
     {
       path: '/budgetList',
+      name: 'budgetListPage',
       component: BudgetListPage,
     },
     {
       path: '/budgetDetail/:id',
+      name: 'budgetDetailPage',
       component: BudgetDetailPage,
     },
     {
       path: '/addBugetDetail',
+      name: 'addBudgetDetailPage',
       component: AddBudgetDetailPage,
     },
     {
       path: '/updateBudgetDetail',
+      name: 'updateBudgetDetail',
       component: UpdateBudgetDetailPage,
     },
   ],
