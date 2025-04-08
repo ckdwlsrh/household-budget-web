@@ -1,12 +1,12 @@
 <template>
-  <div v-if="transactions">
+  <div v-if="transactionsDetail">
     <h2>거래 상세 정보</h2>
-    <p>거래 유형: {{ transactions.transactionType }}</p>
-    <p>카테고리: {{ transactions.category }}</p>
-    <p>금액: {{ transactions.amount }}</p>
-    <p>거래 날짜: {{ transactions.createdDate }}</p>
-    <p>수정 날짜: {{ transactions.updatedDate }}</p>
-    <p>메모: {{ transactions.memo }}</p>
+    <p>거래 유형: {{ transactionsDetail.transactionType }}</p>
+    <p>카테고리: {{ transactionsDetail.category }}</p>
+    <p>금액: {{ transactionsDetail.amount }}</p>
+    <p>거래 날짜: {{ transactionsDetail.createdDate }}</p>
+    <p>수정 날짜: {{ transactionsDetail.updatedDate }}</p>
+    <p>메모: {{ transactionsDetail.memo }}</p>
   </div>
   <div v-else>
     <p>거래 정보를 불러오는 중...</p>
@@ -18,30 +18,23 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { onMounted } from 'vue'
+import { useBudgetStore } from '@/stores/budget'
+import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const router = useRouter()
-const userId = route.params.id
-const transactions = ref([])
+const id = route.params.id
+const budgetStore = useBudgetStore()
 
-const fetchTransaction = async () => {
-  try {
-    const item = await axios.get(`/api/budgetBook/${userId}`)
-    transactions.value = item.data
-  } catch (e) {
-    console.log('[ERROR]', e)
-  }
-}
+// action은 구조분해할당 안됨.
+const { transactionsDetail } = storeToRefs(budgetStore)
 
 const goBack = () => {
   router.push('/')
 }
 
-console.log('거래 아이디:', userId)
-
 onMounted(() => {
-  fetchTransaction()
+  budgetStore.fetchTransactionDetail(id)
 })
 </script>
