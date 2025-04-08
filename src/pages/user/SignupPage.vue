@@ -12,8 +12,8 @@
           <input
             type="text"
             class="form-control"
-            placeholder="name"
-            v-model="userStore.name"
+            placeholder="username"
+            v-model="userStore.username"
             @keyup.enter="userStore.signupHandler"
             required
           />

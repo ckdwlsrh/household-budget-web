@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
-  const name = ref('')
+  const username = ref('')
   const email = ref('')
   const password = ref('')
   const users = ref([])
@@ -51,7 +51,7 @@ export const useUserStore = defineStore('user', () => {
   }
   const signupHandler = async () => {
     try {
-      if (!name.value || !email.value || !password.value || !checkPassword.value) {
+      if (!username.value || !email.value || !password.value || !checkPassword.value) {
         alert('모든 항목을 입력해주세요.')
         return
       }
@@ -80,13 +80,13 @@ export const useUserStore = defineStore('user', () => {
       }
 
       await axios.post('/api/user', {
-        name: name.value,
+        username: username.value,
         email: email.value,
         password: password.value,
         role: 'user',
       })
 
-      name.value = ''
+      username.value = ''
       email.value = ''
       password.value = ''
       checkPassword.value = ''
@@ -107,7 +107,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   return {
-    name,
+    username,
     email,
     password,
     checkPassword,
