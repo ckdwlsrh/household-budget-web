@@ -6,6 +6,13 @@
       "password": "$2a$10$AbcdEfghIjklMnopQrstuVwxyZ",
       "username": "고창진",
       "role": "user"
+    },
+    {
+      "id": "u1234",
+      "email": "test@test.com",
+      "password": "test",
+      "username": "test계정",
+      "role": "user"
     }
   ],
   "budgetBook": [
