@@ -140,7 +140,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // 로그아웃 핸들러
-  const logoutHanlder = () => {
+  const logoutHandler = () => {
     localStorage.removeItem('loggedUser')
     loggedUser.value = null
     router.push('/login')
@@ -173,6 +173,6 @@ export const useUserStore = defineStore('user', () => {
     goToSignUp,
     getLoggedUser,
     changePassword,
-    logoutHanlder,
+    logoutHandler,
   }
 })
