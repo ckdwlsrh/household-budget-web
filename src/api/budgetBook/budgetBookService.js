@@ -47,3 +47,5 @@ const removeBudgetBookById = async (id) => {
     handleError(error)
   }
 }
+
+export { getBudgetBook, getBudgetBookById, postBudgetBook, editBudgetBook, removeBudgetBookById }

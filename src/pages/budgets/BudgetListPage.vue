@@ -36,31 +36,54 @@
         </thead>
         <tbody>
           <BudgetListItem
-            v-for="item in filteredList"
+            v-for="item in paginatedList"
             :key="item.id"
             :transactions="item"
             @handlrDetail="handlrDetail"
           ></BudgetListItem>
         </tbody>
       </table>
+
+      <!-- 합산 금액 -->
+      <div class="total-box mt-4">
+        <strong>총 합계:</strong> {{ totalAmount.toLocaleString() }} 원
+      </div>
+
+      <!-- 페이지네이션 UI -->
+      <div class="pagination mt-4">
+        <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">이전</button>
+
+        <button
+          v-for="page in totalPages"
+          :key="page"
+          :class="{ active: page === currentPage }"
+          @click="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+
+        <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
+          다음
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
 import BudgetListItem from '@/components/budgetItem/BudgetListItem.vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
+import { getBudgetBook } from '@/api/budgetBook/budgetBookService'
 
 //--------------------원본 리스트----------------------//
 const transactions = ref([])
 const fetchTransactions = async () => {
   try {
-    const response = await axios.get('api/budgetBook')
-    transactions.value = response.data
+    const result = await getBudgetBook()
+    transactions.value = result
   } catch (e) {
-    console.log('[ERROR]', e)
+    console.error('[ERROR]', e)
   }
 }
 
@@ -88,20 +111,38 @@ const filteredList = computed(() => {
     const matchType = selectedType.value ? item.transactionType === selectedType.value : true
     const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
     const matchDate = selectedDate.value
-      ? item.date && typeof item.date === 'string' && item.date.slice(0, 10) === selectedDate.value
+      ? item.createdDate &&
+        typeof item.createdDate === 'string' &&
+        item.createdDate.slice(0, 10) === selectedDate.value
       : true
-
-    // 로그
-    console.log('item.date:', item.date)
-    console.log('parsed date:', new Date(item.date).toISOString().slice(0, 10))
-    console.log('selectedDate:', selectedDate.value)
-
     return matchType && matchCategory && matchDate
   })
 })
 
-//-------------------------------------------//
-// 상세 페이지 관련
+// 필터별 합산 금액
+const totalAmount = computed(() => {
+  return filteredList.value.reduce((sum, item) => sum + item.amount, 0)
+})
+
+//--------------------페이지네이션-----------------------//
+const currentPage = ref(1)
+const itemsPerPage = 5
+const totalPages = computed(() => {
+  return Math.ceil(filteredList.value.length / itemsPerPage)
+})
+const paginatedList = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return filteredList.value.slice(start, end)
+})
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+
+//----------------상세 페이지 관련----------------------//
+
 const router = useRouter()
 const handlrDetail = (itemId) => {
   router.push(`/budgetDetail/${itemId}`)
@@ -117,5 +158,19 @@ onMounted(() => {
 <style scoped>
 ul {
   list-style: none;
+}
+
+.pagination button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
 }
 </style>
