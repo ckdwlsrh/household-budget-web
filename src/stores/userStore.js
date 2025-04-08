@@ -13,6 +13,7 @@ export const useUserStore = defineStore('user', () => {
   const agree = ref(false)
   const loggedUser = ref(null)
 
+  // 유저 전체 조회
   const getUsers = async () => {
     try {
       const response = await axios.get('/api/user')
@@ -22,11 +23,13 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // email 정규식 검증
   const isValidEmail = (emailValue) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(emailValue)
   }
 
+  // 로그인 핸들러
   const loginHandler = async () => {
     try {
       if (!isValidEmail(email.value)) {
@@ -51,6 +54,7 @@ export const useUserStore = defineStore('user', () => {
       console.error('로그인 오류:', error)
     }
   }
+  // 회원가입 핸들러
   const signupHandler = async () => {
     try {
       if (!username.value || !email.value || !password.value || !checkPassword.value) {
@@ -101,6 +105,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 현재 로그인된 회원 정보를 LocalStorage에서 추출
   const getLoggedUser = () => {
     const storedUser = localStorage.getItem('loggedUser')
     if (storedUser) {
@@ -110,9 +115,35 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 비밀번호 변경 메서드
+  const changePassword = async (newPassword) => {
+    if (!loggedUser.value) {
+      alert('로그인이 필요합니다.')
+      return
+    }
+
+    const newVal = {
+      ...loggedUser.value,
+      password: newPassword,
+    }
+
+    try {
+      await axios.put(`/api/user/${loggedUser.value.id}`, newVal)
+      loggedUser.value.password = newPassword
+      localStorage.setItem('loggedUser', JSON.stringify(loggedUser.value))
+      return true
+    } catch (error) {
+      console.error('에러 발생: ', error)
+      return false
+    }
+  }
+
+  // LoginPage로 이동
   const goToLogin = () => {
     router.push('/login')
   }
+
+  // SignupPage로 이동
   const goToSignUp = () => {
     router.push('/signup')
   }
@@ -133,5 +164,6 @@ export const useUserStore = defineStore('user', () => {
     goToLogin,
     goToSignUp,
     getLoggedUser,
+    changePassword,
   }
 })

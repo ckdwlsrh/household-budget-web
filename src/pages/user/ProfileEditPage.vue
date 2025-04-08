@@ -31,10 +31,10 @@
 
 <script setup>
 import { useUserStore } from '@/stores/userStore'
-import axios from 'axios'
 import { onMounted, ref, computed } from 'vue'
 
 const userStore = useUserStore()
+
 const editingPassword = ref(false)
 const newPassword = ref('')
 const showPassword = ref(false)
@@ -51,27 +51,15 @@ const savePassword = async () => {
     return
   }
 
-  const newVal = {
-    id: userStore.loggedUser.id,
-    email: userStore.loggedUser.email,
-    password: newPassword.value,
-    username: userStore.loggedUser.username,
-    role: 'user',
-  }
+  const success = await userStore.changePassword(newPassword.value)
 
-  try {
-    await axios.put(`/api/user/${userStore.loggedUser.id}`, newVal)
-
-    userStore.loggedUser.password = newPassword.value
-    localStorage.setItem('loggedUser', JSON.stringify(userStore.loggedUser))
-
+  if (success) {
     alert('비밀번호 변경 완료')
     editingPassword.value = false
     newPassword.value = ''
     showPassword.value = false
-  } catch (error) {
-    console.error('에러 발생: ', error)
-    alert('비밀번호 변경에 실패')
+  } else {
+    alert('비밀번호 변경 실패')
   }
 }
 
