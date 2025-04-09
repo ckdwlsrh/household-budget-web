@@ -62,6 +62,16 @@
       "transactionType": "income",
       "category": "월급",
       "memo": "KB"
+    },
+    {
+      "id": "9094",
+      "userId": "db0d",
+      "createdDate": "2025-04-09",
+      "updatedDate": "2025-04-09",
+      "amount": 24424,
+      "transactionType": "income",
+      "category": "이자",
+      "memo": "12312312"
     }
   ],
   "category": [

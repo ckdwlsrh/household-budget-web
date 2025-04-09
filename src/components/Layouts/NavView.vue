@@ -1,89 +1,40 @@
 <template>
-  <nav class="bg-gray-800 text-white" v-if="userStore.isLoggedIn">
-    <div class="container">
-      <div class="row">
-        <ul class="nav nav-pills nav-justified">
-          <div class="nav-item">
-            <RouterLink
-              :to="{ name: 'homePage' }"
-              class="btn btn-link nav-link text-black custom-border"
-              >대시보드</RouterLink
-            >
-          </div>
-          <div class="nav-item">
-            <RouterLink
-              :to="{ name: 'profileEditPage' }"
-              class="btn btn-link nav-link text-black custom-border"
-              >내 정보</RouterLink
-            >
-          </div>
-          <div class="nav-item">
-            <RouterLink
-              :to="{ name: 'budgetListPage' }"
-              class="btn btn-link nav-link text-black custom-border"
-              >거래 내역</RouterLink
-            >
-          </div>
-          <div class="nav-item">
-            <RouterLink
-              :to="{ name: 'homePage' }"
-              class="btn btn-link nav-link text-black custom-border"
-              >월별 재정</RouterLink
-            >
-          </div>
-        </ul>
-      </div>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3e6ec">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item me-3">
+          <RouterLink :to="{ name: 'homePage' }" class="nav-link">
+            <i class="fa-solid fa-chart-line me-2"></i>대시보드</RouterLink
+          >
+        </li>
+        <li class="nav-item me-3">
+          <RouterLink :to="{ name: 'profileEditPage' }" class="nav-link">
+            <i class="fa-solid fa-user me-2"></i>내 정보</RouterLink
+          >
+        </li>
+        <li class="nav-item me-3">
+          <RouterLink :to="{ name: 'budgetListPage' }" class="nav-link"
+            ><i class="fa-solid fa-money-bill-transfer me-2"></i>거래 내역</RouterLink
+          >
+        </li>
+        <div class="nav-item me-3">
+          <RouterLink :to="{ name: 'homePage' }" class="nav-link">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>공지 사항</RouterLink
+          >
+          <!-- 라우팅 변경 해야됨 -->
+        </div>
+      </ul>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { onMounted } from 'vue'
-import { useUserStore } from '@/stores/userStore'
-
-const userStore = useUserStore()
-
-onMounted(() => {
-  const storedUser = userStore.getLoggedUser
-  if (!storedUser) {
-    userStore.isLoggedIn = false
-  } else {
-    userStore.isLoggedIn = true
-  }
-})
 </script>
 
 <style scoped>
 .nav-link:hover {
-  border-color: #ffcc00;
-}
-.custom-border {
-  border: 2px solid #dddddd;
-  border-radius: 0.25rem;
-}
-
-/* 모바일 */
-@media (max-width: 576px) {
-  .nav {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-/* 태블릿  */
-@media (min-width: 576px) and (max-width: 768px) {
-  .nav {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-}
-
-/* 노트북  */
-@media (min-width: 768px) {
-  .nav {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  color: #6c5ce7;
+  text-decoration: none;
 }
 </style>
