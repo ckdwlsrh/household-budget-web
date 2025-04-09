@@ -145,6 +145,7 @@ export const useUserStore = defineStore('user', () => {
   const logoutHandler = () => {
     localStorage.removeItem('loggedUser')
     loggedUser.value = null
+    resetRef()
     router.push('/login')
   }
 
