@@ -13,6 +13,7 @@
   </div>
   <div>
     <button class="btn btn-primary" @click="goBack">뒤로가기</button>
+    <button class="btn btn-warning" @click="edit">수정하기</button>
   </div>
 </template>
 
@@ -33,7 +34,9 @@ const { transactionsDetail } = storeToRefs(budgetStore)
 const goBack = () => {
   router.push('/budgetList')
 }
-
+const edit = () => {
+  router.push(`/updateBudgetDetail/${id}`)
+}
 onMounted(() => {
   budgetStore.fetchTransactionDetail(id)
 })
