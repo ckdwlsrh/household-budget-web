@@ -1,5 +1,5 @@
 <template>
-  <GoogleChart1 :income="incomeList" :expense="expenseList" />
+  <GoogleChart2 :income="incomeList" :expense="expenseList" />
   <div class="card-container">
     <div class="card">
       <div class="card-body">
@@ -68,7 +68,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import axios from 'axios'
-import GoogleChart1 from '@/components/google/GoogleChart2.vue'
+import GoogleChart2 from '@/components/google/GoogleChart2.vue'
 import AddBudgetDetail from '../components/modal/AddBudgetDetail.vue'
 import { useUserStore } from '@/stores/userStore'
 

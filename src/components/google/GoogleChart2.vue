@@ -3,8 +3,7 @@
 </template>
 
 <script setup>
-import { onMounted, watch } from 'vue'
-import { computed } from 'vue'
+import { onMounted, watch, computed } from 'vue'
 
 const props = defineProps({
   income: Array,

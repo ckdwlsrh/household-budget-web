@@ -1,9 +1,5 @@
 export const handleResponse = (response) => {
-  if (
-    (response.status == 200 || response.status == 201 || response.status == 204) &&
-    response.status < 300
-  ) {
-    // created no content status 추가
+  if (response.status >= 200 && response.status < 300) {
     return response.data
   }
   throw new Error(`API Error: ${response.statusText}`)

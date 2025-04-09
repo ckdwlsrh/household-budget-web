@@ -15,6 +15,17 @@
             </button>
           </RouterLink>
         </template>
+
+        <template v-else
+          ><RouterLink :to="{ name: 'loginPage' }">
+            <button
+              @click="logOut"
+              class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+            >
+              로그아웃
+            </button>
+          </RouterLink>
+        </template>
       </div>
     </div>
   </header>
@@ -33,6 +44,11 @@ onMounted(() => {
     isLoggedIn.value = true
   }
 })
+
+const logOut = () => {
+  localStorage.removeItem('loggedUser')
+  isLoggedIn.value = false
+}
 </script>
 
 <style scoped></style>
