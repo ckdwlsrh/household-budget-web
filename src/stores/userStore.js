@@ -47,9 +47,7 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
-
         loggedUser.value = existUser
-
         router.push('/')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
@@ -117,7 +115,8 @@ export const useUserStore = defineStore('user', () => {
       loggedUser.value = JSON.parse(storedUser)
     } else {
       alert('로그인을 해주세요')
-      router.push('/login')
+      // router.push('/login')
+      // 개발 중 로그인 생략
     }
   }
 
@@ -155,7 +154,6 @@ export const useUserStore = defineStore('user', () => {
   //회원탈퇴 핸들러
   const withdrawHandler = async () => {
     if (!loggedUser.value) {
-      alert('로그인이 필요합니다.')
       return false
     }
 
