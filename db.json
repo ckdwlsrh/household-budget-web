@@ -1,6 +1,14 @@
 {
   "user": [
     {
+      "id": "u777",
+      "email": "admin@admin.com",
+      "password": "admin",
+      "username": "admin",
+      "role": "admin"
+    },
+
+    {
       "id": "u123",
       "email": "hamzzang@example.com",
       "password": "$2a$10$AbcdEfghIjklMnopQrstuVwxyZ",
