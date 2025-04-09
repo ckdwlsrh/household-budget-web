@@ -13,13 +13,6 @@
       "password": "test",
       "username": "test계정",
       "role": "user"
-    },
-    {
-      "id": "b07f",
-      "username": "모정민",
-      "email": "jmmo0722@naver.com",
-      "password": "1234",
-      "role": "user"
     }
   ],
   "budgetBook": [
@@ -62,16 +55,6 @@
       "transactionType": "income",
       "category": "월급",
       "memo": "KB"
-    },
-    {
-      "id": "b004",
-      "userId": "u123",
-      "createdDate": "2025-03-05T18:45:00Z",
-      "updatedDate": "2025-04-05T18:45:00Z",
-      "amount": 30000,
-      "transactionType": "expense",
-      "category": "교통비",
-      "memo": "TEST"
     }
   ],
   "category": [
