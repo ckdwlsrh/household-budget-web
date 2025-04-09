@@ -46,7 +46,7 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
-        router.push('/home')
+        router.push('/')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
       }
