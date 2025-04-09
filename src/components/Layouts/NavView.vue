@@ -18,7 +18,7 @@
           >
         </li>
         <div class="nav-item me-3">
-          <RouterLink :to="{ name: 'homePage' }" class="nav-link">
+          <RouterLink :to="{ name: 'noticeList' }" class="nav-link">
             <i class="fa-solid fa-circle-exclamation me-2"></i>공지 사항</RouterLink
           >
           <!-- 라우팅 변경 해야됨 -->
