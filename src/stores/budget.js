@@ -7,6 +7,7 @@ import {
   postBudgetBook,
 } from '@/api/budgetBook/budgetBookService'
 import { ref, computed } from 'vue'
+import { useUserStore } from './userStore'
 
 export const useBudgetStore = defineStore('budget', () => {
   // 상태(state)
@@ -41,6 +42,9 @@ export const useBudgetStore = defineStore('budget', () => {
   // 정렬 관련
   const sortField = ref('createdDate')
   const sortOrder = ref('desc')
+
+  // 유저관련
+  const userStore = useUserStore()
 
   // ------------------- Getters (computed) -------------------
 
@@ -99,6 +103,8 @@ export const useBudgetStore = defineStore('budget', () => {
   // 필터링된 목록 추출 (거래유형, 카테고리, 월, 날짜 필터 적용)
   const filteredList = computed(() => {
     return sortedDescList.value.filter((item) => {
+      const userId = userStore.loggedUser ? item.userId === userStore.loggedUser.id : false
+
       const matchType = selectedType.value ? item.transactionType === selectedType.value : true
 
       const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
@@ -115,7 +121,7 @@ export const useBudgetStore = defineStore('budget', () => {
           item.createdDate.slice(0, 10) === selectedDate.value
         : true
 
-      return matchType && matchCategory && matchMonth && matchDate
+      return userId && matchType && matchCategory && matchMonth && matchDate
     })
   })
 
