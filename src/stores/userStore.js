@@ -46,7 +46,7 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
-        window.location.href = '/'
+        router.push('/')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
       }
@@ -143,7 +143,7 @@ export const useUserStore = defineStore('user', () => {
   const logoutHandler = () => {
     localStorage.removeItem('loggedUser')
     loggedUser.value = null
-    window.location.href = '/login'
+    router.push('/login')
   }
 
   //회원탈퇴 핸들러
@@ -158,7 +158,8 @@ export const useUserStore = defineStore('user', () => {
       alert('탈퇴 성공')
       localStorage.removeItem('loggedUser')
       loggedUser.value = null
-      window.location.href = '/login'
+      resetRef()
+      router.push('/login')
       return true
     } catch (error) {
       console.error('탈퇴 중 오류:', error)
@@ -167,13 +168,24 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // reset ref
+  const resetRef = () => {
+    username.value = ''
+    email.value = ''
+    password.value = ''
+    checkPassword.value = ''
+    agree.value = false
+  }
+
   // LoginPage로 이동
   const goToLogin = () => {
+    resetRef()
     router.push('/login')
   }
 
   // SignupPage로 이동
   const goToSignUp = () => {
+    resetRef()
     router.push('/signup')
   }
 
