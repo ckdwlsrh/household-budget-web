@@ -1,7 +1,10 @@
 <template>
   <div class="container mt-5 big-container">
     <div v-if="userStore.loggedUser" class="card shadow p-5 big-card">
-      <h1 class="mb-4 fw-bold">내 정보</h1>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold mb-0">내 정보</h1>
+        <img class="userImg" src="../../assets/img/user.png" />
+      </div>
       <hr />
       <div class="mb-4">
         <h2>{{ userStore.loggedUser.username }}님, 안녕하세요 👋</h2>
@@ -94,5 +97,13 @@ onMounted(() => {
   max-width: 800px;
   margin: auto;
   font-size: inherit;
+}
+
+.userImg {
+  width: 100px;
+  height: 100px;
+  border: 3px solid black;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 </style>
