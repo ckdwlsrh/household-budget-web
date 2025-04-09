@@ -12,6 +12,15 @@ export const getUserById = async (id) => {
   }
 }
 
+export const getUsers = async () => {
+  try {
+    const response = await apiClient.get(BASE)
+    return handleResponse(response)
+  } catch (error) {
+    handleError(error)
+  }
+}
+
 export const createUser = async (body) => {
   try {
     const response = await apiClient.post(BASE, body)

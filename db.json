@@ -19,46 +19,15 @@
     {
       "id": "b001",
       "userId": "u123",
-      "createdDate": "2025-03-01T09:00:00Z",
-      "updatedDate": "2025-03-01T09:00:00Z",
-      "amount": 300000,
-      "transactionType": "income",
-      "category": "월급",
-      "memo": "3월 급여"
-    },
-    {
-      "id": "b002",
-      "userId": "u123",
-      "createdDate": "2025-03-03T12:30:00Z",
-      "updatedDate": "2025-03-03T12:30:00Z",
-      "amount": 20000,
-      "transactionType": "expense",
-      "category": "이자",
-      "memo": "대출금 이자"
-    },
-    {
-      "id": "b003",
-      "userId": "u123",
-      "createdDate": "2025-03-05T18:45:00Z",
-      "updatedDate": "2025-03-05T18:45:00Z",
-      "amount": 30000,
-      "transactionType": "expense",
-      "category": "유흥",
-      "memo": "정기 회식"
-    },
-
-    {
-      "id": "b004",
-      "userId": "u123",
       "createdDate": "2025-04-01T09:00:00Z",
       "updatedDate": "2025-04-01T09:00:00Z",
-      "amount": 300000,
+      "amount": 3000000,
       "transactionType": "income",
       "category": "월급",
       "memo": "4월 급여"
     },
     {
-      "id": "b005",
+      "id": "b002",
       "userId": "u123",
       "createdDate": "2025-04-03T12:30:00Z",
       "updatedDate": "2025-04-03T12:30:00Z",
@@ -68,7 +37,7 @@
       "memo": "점심 김밥천국"
     },
     {
-      "id": "b006",
+      "id": "b003",
       "userId": "u123",
       "createdDate": "2025-04-05T18:45:00Z",
       "updatedDate": "2025-04-05T18:45:00Z",
