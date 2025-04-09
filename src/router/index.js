@@ -6,6 +6,7 @@ import ProfileEditPage from '@/pages/user/ProfileEditPage.vue'
 import BudgetListPage from '@/pages/budgets/BudgetListPage.vue'
 import BudgetDetailPage from '@/pages/budgets/BudgetDetailPage.vue'
 import UpdateBudgetDetailPage from '@/pages/budgets/UpdateBudgetDetailPage.vue'
+import AddNoticesPage from '@/pages/notices/AddNoticesPage.vue'
 // import { useUserStore } from '@/stores/userStore'
 
 const router = createRouter({
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/updateBudgetDetail/:id',
       name: 'updateBudgetDetail',
       component: UpdateBudgetDetailPage,
+    },
+    {
+      path: '/addNotice',
+      name: 'addNotice',
+      component: AddNoticesPage,
     },
   ],
 })
