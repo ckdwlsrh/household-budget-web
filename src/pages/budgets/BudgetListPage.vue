@@ -44,14 +44,25 @@
         </tbody>
       </table>
 
-      <!-- 합산 금액 -->
+      <!-- 잔액 금액 -->
       <div class="total-box mt-4">
-        <strong>총 합계:</strong> {{ (budgetStore.totalAmount || 0).toLocaleString() }} 원
+        <strong>
+          <span v-if="budgetStore.selectedType === ''"
+            >총 잔액: {{ (budgetStore.totalAmount || 0).toLocaleString() }} 원</span
+          >
+          <span v-else-if="budgetStore.selectedType === 'income'"
+            >총 수입: {{ (budgetStore.totalAmount || 0).toLocaleString() }} 원</span
+          >
+          <span v-else-if="budgetStore.selectedType === 'expense'"
+            >총 지출: {{ (budgetStore.totalAmount || 0).toLocaleString() }} 원</span
+          >
+        </strong>
       </div>
 
       <!-- 페이지네이션 UI -->
-      <div class="pagination mt-4">
+      <div class="pagination mt-4 d-flex justify-content-center">
         <button
+          class="left-icon"
           @click="budgetStore.goToPage(budgetStore.currentPage - 1)"
           :disabled="budgetStore.currentPage === 1"
         >
@@ -82,16 +93,16 @@
 import BudgetListItem from '@/components/budgetItem/BudgetListItem.vue'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
-// import { getBudgetBook } from '@/api/budgetBook/budgetBookService'
 import { useBudgetStore } from '@/stores/budget'
 const budgetStore = useBudgetStore()
 
 const router = useRouter()
+
 const handlrDetail = (itemId) => {
   router.push(`/budgetDetail/${itemId}`)
 }
 
-//--------------------원본 리스트----------------------//
+//-------------원본 리스트(Store활용으로 인해 주석처리)--------------//
 // const transactions = ref([])
 // const fetchTransactions = async () => {
 //   try {
