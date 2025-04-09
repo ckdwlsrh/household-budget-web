@@ -59,7 +59,31 @@ onMounted(() => {
   border-color: #ffcc00;
 }
 .custom-border {
-  border: 2px solid #dddddd; /* 원하는 색상으로 변경 */
-  border-radius: 0.25rem; /* 테두리 둥글기 조정 */
+  border: 2px solid #dddddd;
+  border-radius: 0.25rem;
+}
+
+/* 모바일 */
+@media (max-width: 576px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* 태블릿  */
+@media (min-width: 576px) and (max-width: 768px) {
+  .nav {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+/* 노트북  */
+@media (min-width: 768px) {
+  .nav {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 </style>
