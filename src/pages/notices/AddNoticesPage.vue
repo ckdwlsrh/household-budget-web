@@ -26,31 +26,29 @@
     </div>
     <div>
       <button class="btn btn-outline-dark" @click="goToNoticesList">목록보기</button>
-      <button class="btn btn-outline-dark" @click="addNotice">추가하기</button>
+      <button class="btn btn-outline-dark" @click="addNotice2">추가하기</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import axios from 'axios'
+import { createNotices } from '@/api/notices/noticeService'
 import { ref } from 'vue'
 
 const title = ref('')
 const desc = ref('')
 
-const addNotice = async () => {
+const addNotice2 = async () => {
   const koreaTime = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
   const newNotice = {
     title: title.value,
     desc: desc.value,
     createdDate: koreaTime,
   }
-
   try {
-    const response = await axios.post('/api/notices', newNotice)
-    console.log(response.data)
+    await createNotices(newNotice)
   } catch (error) {
-    console.log('에러발생: ', error)
+    console.error('공지사항 작성 에러: ', error)
   }
 }
 </script>
