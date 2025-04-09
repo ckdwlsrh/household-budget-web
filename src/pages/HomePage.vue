@@ -4,7 +4,10 @@
     <h2>{{ month }}월</h2>
     <button class="btn btn-primary" @click="nextMonth">다음 달</button>
   </div>
-  <GoogleChart2 :income="incomeList" :expense="expenseList" />
+  <div class="chart">
+    <GoogleChart1 :income="incomeList" :expense="expenseList" />
+    <GoogleChart2 :income="incomeList" :expense="expenseList" />
+  </div>
   <div class="card-container">
     <div class="card">
       <div class="card-body">
@@ -73,6 +76,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import axios from 'axios'
+import GoogleChart1 from '@/components/google/GoogleChart1.vue'
 import GoogleChart2 from '@/components/google/GoogleChart2.vue'
 import AddBudgetDetail from '../components/modal/AddBudgetDetail.vue'
 import { useUserStore } from '@/stores/userStore'
@@ -176,5 +180,11 @@ const openModal = () => {
   height: 3.5rem;
   font-size: 1.5rem;
   z-index: 999;
+}
+.chart {
+  width: 1400px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
 }
 </style>
