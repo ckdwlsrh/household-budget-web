@@ -1,18 +1,89 @@
 <template>
   <nav class="bg-gray-800 text-white">
-    <div class="container mx-auto py-2">
-      <ul class="flex space-x-4">
-        <RouterLink :to="{ name: 'homePage' }">대시보드</RouterLink>
-        <RouterLink :to="{ name: 'profileEditPage' }">내 정보</RouterLink>
-        <RouterLink :to="{ name: 'budgetListPage' }">거래 내역</RouterLink>
-        <RouterLink :to="{ name: 'homePage' }">월별 재정</RouterLink>
-      </ul>
+    <div class="container">
+      <div class="row">
+        <template v-if="isLoggedIn">
+          <ul class="nav nav-pills nav-justified">
+            <div class="nav-item">
+              <RouterLink
+                :to="{ name: 'homePage' }"
+                class="btn btn-link nav-link text-black custom-border"
+                >대시보드</RouterLink
+              >
+            </div>
+            <div class="nav-item">
+              <RouterLink
+                :to="{ name: 'profileEditPage' }"
+                class="btn btn-link nav-link text-black custom-border"
+                >내 정보</RouterLink
+              >
+            </div>
+            <div class="nav-item">
+              <RouterLink
+                :to="{ name: 'budgetListPage' }"
+                class="btn btn-link nav-link text-black custom-border"
+                >거래 내역</RouterLink
+              >
+            </div>
+            <div class="nav-item">
+              <RouterLink
+                :to="{ name: 'homePage' }"
+                class="btn btn-link nav-link text-black custom-border"
+                >월별 재정</RouterLink
+              >
+            </div>
+          </ul>
+        </template>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+
+const isLoggedIn = ref(false)
+
+onMounted(() => {
+  const storedUser = localStorage.getItem('loggedUser')
+  if (storedUser) {
+    isLoggedIn.value = true
+  }
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+.nav-link:hover {
+  border-color: #ffcc00;
+}
+.custom-border {
+  border: 2px solid #dddddd;
+  border-radius: 0.25rem;
+}
+
+/* 모바일 */
+@media (max-width: 576px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* 태블릿  */
+@media (min-width: 576px) and (max-width: 768px) {
+  .nav {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+/* 노트북  */
+@media (min-width: 768px) {
+  .nav {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+</style>
