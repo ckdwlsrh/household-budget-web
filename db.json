@@ -13,6 +13,13 @@
       "password": "test",
       "username": "test계정",
       "role": "user"
+    },
+    {
+      "id": "b07f",
+      "username": "모정민",
+      "email": "jmmo0722@naver.com",
+      "password": "1234",
+      "role": "user"
     }
   ],
   "budgetBook": [
