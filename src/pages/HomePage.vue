@@ -1,4 +1,9 @@
 <template>
+  <div class="d-flex justify-content-center align-items-center gap-2">
+    <button class="btn btn-primary" @click="previousMonth">이전 달</button>
+    <h2>{{ month }}월</h2>
+    <button class="btn btn-primary" @click="nextMonth">다음 달</button>
+  </div>
   <GoogleChart2 :income="incomeList" :expense="expenseList" />
   <div class="card-container">
     <div class="card">
@@ -62,20 +67,45 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import axios from 'axios'
 import GoogleChart2 from '@/components/google/GoogleChart2.vue'
 
 const incomeList = ref([])
 const expenseList = ref([])
+const month = ref(new Date().getMonth() + 1)
+
+function previousMonth() {
+  if (month.value > 1) {
+    month.value -= 1
+  }
+}
+
+function nextMonth() {
+  if (month.value < 12) {
+    month.value += 1
+  }
+}
+watch(month, () => {
+  requestAPI()
+})
 
 const requestAPI = async () => {
   try {
     const response = await axios.get('http://localhost:3000/budgetBook')
     const budgetData = response.data
 
-    incomeList.value = budgetData.filter((item) => item.transactionType === 'income')
-    expenseList.value = budgetData.filter((item) => item.transactionType === 'expense')
+    incomeList.value = budgetData.filter(
+      (item) =>
+        item.transactionType === 'income' &&
+        parseInt(item.updatedDate.slice(5, 7), 10) === month.value,
+    )
+    expenseList.value = budgetData.filter(
+      (item) =>
+        item.transactionType === 'expense' &&
+        parseInt(item.updatedDate.slice(5, 7), 10) === month.value,
+    )
+    console.log(month)
   } catch (error) {
     console.error('API 요청 오류:', error)
   }
