@@ -50,8 +50,9 @@
       </div>
 
       <!-- 페이지네이션 UI -->
-      <div class="pagination mt-4">
+      <div class="pagination mt-4 d-flex justify-content-center">
         <button
+          class="left-icon"
           @click="budgetStore.goToPage(budgetStore.currentPage - 1)"
           :disabled="budgetStore.currentPage === 1"
         >
@@ -82,7 +83,6 @@
 import BudgetListItem from '@/components/budgetItem/BudgetListItem.vue'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
-// import { getBudgetBook } from '@/api/budgetBook/budgetBookService'
 import { useBudgetStore } from '@/stores/budget'
 const budgetStore = useBudgetStore()
 
