@@ -17,7 +17,10 @@
       <tbody>
         <tr v-for="(notice, index) in notices" :key="index">
           <td>{{ index + 1 }}</td>
-          <td>{{ notice.title }}</td>
+          <td>
+            {{ notice.title }}
+            <span v-if="isNew(notice.createdDate)" class="badge rounded-pill new-badge">new</span>
+          </td>
           <td>{{ notice.desc }}</td>
           <td>{{ notice.createdDate.split('T')[0] }}</td>
           <td v-if="userStore.loggedUser.role === 'admin'">
@@ -48,9 +51,16 @@ const userStore = useUserStore()
 
 const notices = ref([])
 
+const isNew = (createdDate) => {
+  const now = new Date()
+  const created = new Date(createdDate)
+  const day = 24 * 60 * 60 * 1000
+  return now - created < 3 * day
+}
+
 const fetchNotices = async () => {
   try {
-    const data = await getNotices()
+    const data = await getNotices({ _sort: 'createdDate', _order: 'desc' })
     notices.value = data
   } catch (error) {
     console.error('에러발생: ', error)
@@ -93,5 +103,10 @@ const goToAddNotice = () => {
 
 .notice-table th {
   background-color: #f5f5f5;
+}
+
+.new-badge {
+  margin: 10px;
+  background-color: red;
 }
 </style>
