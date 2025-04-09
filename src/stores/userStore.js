@@ -47,7 +47,7 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
-
+        isLoggedIn.value = true
         loggedUser.value = existUser
 
         router.push('/')
@@ -117,6 +117,7 @@ export const useUserStore = defineStore('user', () => {
       loggedUser.value = JSON.parse(storedUser)
     } else {
       alert('로그인을 해주세요')
+      isLoggedIn.value = false
       router.push('/login')
     }
   }
@@ -148,6 +149,7 @@ export const useUserStore = defineStore('user', () => {
   const logoutHandler = () => {
     localStorage.removeItem('loggedUser')
     loggedUser.value = null
+    isLoggedIn.value = false
     resetRef()
     router.push('/login')
   }
