@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, toRaw } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { createUser, editUserById, getUsers, removeUserById } from '@/api/user/userService'
 
 export const useUserStore = defineStore('user', () => {
   const username = ref('')
@@ -15,12 +15,12 @@ export const useUserStore = defineStore('user', () => {
   const isLoggedIn = ref(false)
 
   // 유저 전체 조회
-  const getUsers = async () => {
+  const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/user')
-      users.value = response.data
+      const data = await getUsers()
+      users.value = data
     } catch (error) {
-      console.error('유저 조회 오류', error)
+      console.error('유저 조회 오류: ', error)
     }
   }
 
@@ -38,7 +38,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await getUsers()
+      await fetchUsers()
 
       const existUser = users.value.find(
         (user) => user.email === email.value && user.password === password.value,
@@ -47,8 +47,7 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
-        //리다이렉트 하기위해 router.push수정
-        window.location.href = '/'
+        router.push('/')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
       }
@@ -80,7 +79,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await getUsers()
+      await fetchUsers()
       const emailExist = users.value.find((user) => user.email === email.value)
 
       if (emailExist) {
@@ -88,7 +87,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await axios.post('/api/user', {
+      await createUser({
         username: username.value,
         email: email.value,
         password: password.value,
@@ -115,6 +114,7 @@ export const useUserStore = defineStore('user', () => {
       loggedUser.value = JSON.parse(storedUser)
     } else {
       alert('로그인을 해주세요')
+      router.push('/login')
     }
   }
 
@@ -131,12 +131,12 @@ export const useUserStore = defineStore('user', () => {
     }
 
     try {
-      await axios.put(`/api/user/${loggedUser.value.id}`, newVal)
+      await editUserById(loggedUser.value.id, newVal)
       loggedUser.value.password = newPassword
       localStorage.setItem('loggedUser', JSON.stringify(loggedUser.value))
       return true
     } catch (error) {
-      console.error('에러 발생: ', error)
+      console.error('비밀번호 변경 실패: ', error)
       return false
     }
   }
@@ -148,13 +148,46 @@ export const useUserStore = defineStore('user', () => {
     router.push('/login')
   }
 
+  //회원탈퇴 핸들러
+  const withdrawHandler = async () => {
+    if (!loggedUser.value) {
+      alert('로그인이 필요합니다.')
+      return false
+    }
+
+    try {
+      await removeUserById(loggedUser.value.id)
+      alert('탈퇴 성공')
+      localStorage.removeItem('loggedUser')
+      loggedUser.value = null
+      resetRef()
+      router.push('/login')
+      return true
+    } catch (error) {
+      console.error('탈퇴 중 오류:', error)
+      alert('탈퇴 중 오류가 발생했습니다.')
+      return false
+    }
+  }
+
+  // reset ref
+  const resetRef = () => {
+    username.value = ''
+    email.value = ''
+    password.value = ''
+    checkPassword.value = ''
+    agree.value = false
+  }
+
   // LoginPage로 이동
   const goToLogin = () => {
+    resetRef()
     router.push('/login')
   }
 
   // SignupPage로 이동
   const goToSignUp = () => {
+    resetRef()
     router.push('/signup')
   }
 
@@ -177,5 +210,6 @@ export const useUserStore = defineStore('user', () => {
     getLoggedUser,
     changePassword,
     logoutHandler,
+    withdrawHandler,
   }
 })
