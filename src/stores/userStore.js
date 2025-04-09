@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, toRaw } from 'vue'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { createUser, getUsers } from '@/api/user/userService'
+import { createUser, editUserById, getUsers } from '@/api/user/userService'
 
 export const useUserStore = defineStore('user', () => {
   const username = ref('')
@@ -130,12 +129,12 @@ export const useUserStore = defineStore('user', () => {
     }
 
     try {
-      await axios.put(`/api/user/${loggedUser.value.id}`, newVal)
+      await editUserById(loggedUser.value.id, newVal)
       loggedUser.value.password = newPassword
       localStorage.setItem('loggedUser', JSON.stringify(loggedUser.value))
       return true
     } catch (error) {
-      console.error('에러 발생: ', error)
+      console.error('비밀번호 변경 실패: ', error)
       return false
     }
   }
