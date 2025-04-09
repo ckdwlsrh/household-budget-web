@@ -12,6 +12,15 @@ export const getUserById = async (id) => {
   }
 }
 
+export const getUserByUsernameAndEmail = async (username, email) => {
+  try {
+    const response = await apiClient.get(BASE + `?username=${username}&email=${email}`)
+    return handleResponse(response)
+  } catch (error) {
+    handleError(error)
+  }
+}
+
 export const getUsers = async () => {
   try {
     const response = await apiClient.get(BASE)

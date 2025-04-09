@@ -52,15 +52,119 @@
             </button>
           </p>
         </div>
+        <p class="text-end mt-4 fs-6">
+          <small>
+            비밀번호를 까먹으셨나요?
+            <button type="button" class="btn btn-link p-0" @click="openModal">비밀번호 찾기</button>
+          </small>
+        </p>
+
+        <!-- 모달 -->
+        <div
+          v-if="showModal"
+          class="modal fade"
+          id="removeUser"
+          tabindex="-1"
+          aria-hidden="true"
+          ref="modalEl"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="removeUserLabel">비밀번호 찾기</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  @click="closeModal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="username"
+                    v-model="searchName"
+                    @keyup.enter="searchPassword"
+                    required
+                  />
+                </div>
+
+                <br />
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="e-mail"
+                    v-model="searchEmail"
+                    @keyup.enter="searchPassword"
+                    required
+                  />
+                </div>
+                <br />
+                <div>비밀번호: {{ result }}</div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" @click="searchPassword">찾기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { getUserByUsernameAndEmail } from '@/api/user/userService'
 import { useUserStore } from '@/stores/userStore'
+import { Modal } from 'bootstrap/dist/js/bootstrap.min'
+import { nextTick, ref } from 'vue'
+
+const showModal = ref(false)
+const modalEl = ref(null)
+let modalInstance = null
+const searchName = ref('')
+const searchEmail = ref('')
+const result = ref('')
 
 const userStore = useUserStore()
+
+const openModal = async () => {
+  showModal.value = true
+  await nextTick()
+
+  if (modalEl.value) {
+    modalInstance = new Modal(modalEl.value)
+    modalInstance.show()
+  }
+}
+
+const closeModal = () => {
+  if (modalInstance) {
+    modalInstance.hide()
+  }
+  showModal.value = false
+  showModal.value = false
+  searchName.value = ''
+  searchEmail.value = ''
+  result.value = ''
+}
+
+const searchPassword = async () => {
+  try {
+    const findUser = await getUserByUsernameAndEmail(searchName.value, searchEmail.value)
+
+    if (findUser) {
+      result.value = findUser[0].password
+    }
+  } catch (error) {
+    result.value = '사용자를 찾을 수 없습니다. (이름, 이메일 확인)'
+    console.error('에러 발생:', error)
+  }
+}
 </script>
 
 <style scoped>
