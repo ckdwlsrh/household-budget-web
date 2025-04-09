@@ -1,25 +1,25 @@
 // /store/budgetList.js
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 import {
   editBudgetBook,
   getBudgetBook,
   getBudgetBookById,
   postBudgetBook,
 } from '@/api/budgetBook/budgetBookService'
-import { ref, computed } from 'vue'
-import { useUserStore } from './userStore'
+import { useUserStore } from '@/stores/userStore'
 
 export const useBudgetStore = defineStore('budget', () => {
   // 상태(state)
-  const transactions = ref([]) // 원본 배열
-  const transactionsDetail = ref(null) // 상세 페이지용 배열
+  const transactions = ref([]) // 전체 거래 내역
+  const transactionsDetail = ref(null) // 상세 거래 내역
 
   // 필터 상태
   const selectedType = ref('')
   const selectedCategory = ref('')
   const selectedDate = ref('')
   const selectedMonth = ref('')
-  // 월 옵션 목록 (문자열 형식: '01', '02', ...)
+  // 월 옵션 (문자열 형식: '01', '02', ...)
   const availableMonths = ref([
     '01',
     '02',
@@ -43,28 +43,24 @@ export const useBudgetStore = defineStore('budget', () => {
   const sortField = ref('createdDate')
   const sortOrder = ref('desc')
 
-  // 유저관련
+  // 로그인 정보 (user filtering)
   const userStore = useUserStore()
 
-  // ------------------- Getters (computed) -------------------
+  // ------------------- Computed (Getters) -------------------
 
-  // 내림차순(최신순) 정렬된 리스트
+  // 최신순 정렬된 거래 내역
   const sortedDescList = computed(() => {
     const list = [...transactions.value]
     const sf = sortField.value
     const so = sortOrder.value
-
     return list.sort((a, b) => {
       const aValue = a[sf]
       const bValue = b[sf]
-
-      // 날짜 정렬
       if (sf === 'createdDate') {
         return so === 'asc'
           ? new Date(aValue) - new Date(bValue)
           : new Date(bValue) - new Date(aValue)
       }
-      // 숫자 정렬 (예: amount)
       return so === 'asc' ? aValue - bValue : aValue - bValue
     })
   })
@@ -75,57 +71,31 @@ export const useBudgetStore = defineStore('budget', () => {
     return Array.from(set)
   })
 
-  // 거래유형 옵션 (중복 제거)
+  // 거래 유형 옵션 (중복 제거)
   const typeOptions = computed(() => {
     const set = new Set(transactions.value.map((t) => t.transactionType))
     return Array.from(set)
   })
 
-  //---------------------------------------------------------------//
-  //------------------------AddBudgetbook--------------------------//
-  //---------------------------------------------------------------//
-  async function addTransaction(data) {
-    try {
-      await postBudgetBook(data)
-    } catch (e) {
-      console.log('[ERROR]', e)
-    }
-  }
-
-  async function updateTransaction(id, data) {
-    try {
-      await editBudgetBook(id, data)
-    } catch (e) {
-      console.log('[ERROR]', e)
-    }
-  }
-
-  // 필터링된 목록 추출 (거래유형, 카테고리, 월, 날짜 필터 적용)
+  // 필터링된 거래 내역 (로그인 유저, 거래 유형, 카테고리, 월, 날짜 조건 적용)
   const filteredList = computed(() => {
     return sortedDescList.value.filter((item) => {
-      const userId = userStore.loggedUser ? item.userId === userStore.loggedUser.id : false
-
+      const matchUser = userStore.loggedUser ? item.userId === userStore.loggedUser.id : false
       const matchType = selectedType.value ? item.transactionType === selectedType.value : true
-
       const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
-
-      // 월별 필터: selectedMonth 값이 있을 경우, createdDate에서 월 부분("MM")과 비교
       const matchMonth = selectedMonth.value
         ? item.createdDate.slice(5, 7) === selectedMonth.value
         : true
-
-      // 날짜 필터: selectedDate 값이 있을 경우, "YYYY-MM-DD" 비교
       const matchDate = selectedDate.value
         ? item.createdDate &&
           typeof item.createdDate === 'string' &&
           item.createdDate.slice(0, 10) === selectedDate.value
         : true
-
-      return userId && matchType && matchCategory && matchMonth && matchDate
+      return matchUser && matchType && matchCategory && matchMonth && matchDate
     })
   })
 
-  // 필터별 합산 금액 (수입 - 지출)
+  // 필터 조건에 맞는 총 합산 금액 (수입 - 지출)
   const totalAmount = computed(() => {
     const incomeAmount = filteredList.value
       .filter((t) => t.transactionType === 'income')
@@ -133,7 +103,6 @@ export const useBudgetStore = defineStore('budget', () => {
     const expenseAmount = filteredList.value
       .filter((t) => t.transactionType === 'expense')
       .reduce((sum, expense) => sum + expense.amount, 0)
-
     return incomeAmount - expenseAmount
   })
 
@@ -142,7 +111,7 @@ export const useBudgetStore = defineStore('budget', () => {
     return Math.ceil(filteredList.value.length / itemsPerPage.value)
   })
 
-  // 페이지네이션: 현재 페이지에 해당하는 항목
+  // 페이지네이션: 현재 페이지에 해당하는 거래 내역 목록
   const paginatedList = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage.value
     const end = start + itemsPerPage.value
@@ -151,7 +120,8 @@ export const useBudgetStore = defineStore('budget', () => {
 
   // ------------------- Actions -------------------
 
-  async function fetchTransactions() {
+  // 전체 거래 내역을 불러옴
+  const fetchTransactions = async () => {
     try {
       const result = await getBudgetBook()
       transactions.value = result
@@ -160,18 +130,38 @@ export const useBudgetStore = defineStore('budget', () => {
     }
   }
 
-  async function fetchTransactionDetail(id) {
+  // 상세 거래 내역을 불러옴
+  const fetchTransactionDetail = async (id) => {
     try {
       const item = await getBudgetBookById(id)
       transactionsDetail.value = item
     } catch (e) {
-      console.log('[ERROR]', e)
+      console.error('[ERROR] fetchTransactionDetail:', e)
     }
   }
 
-  function goToPage(page) {
+  // 페이지 이동
+  const goToPage = (page) => {
     if (page >= 1 && page <= totalPages.value) {
       currentPage.value = page
+    }
+  }
+
+  // 거래 내역 추가
+  const addTransaction = async (data) => {
+    try {
+      await postBudgetBook(data)
+    } catch (e) {
+      console.error('[ERROR] addTransaction:', e)
+    }
+  }
+
+  // 거래 내역 수정
+  const updateTransaction = async (id, data) => {
+    try {
+      await editBudgetBook(id, data)
+    } catch (e) {
+      console.error('[ERROR] updateTransaction:', e)
     }
   }
 
@@ -189,7 +179,7 @@ export const useBudgetStore = defineStore('budget', () => {
     itemsPerPage,
     sortField,
     sortOrder,
-    // computed (getters)
+    // computed 값들
     sortedDescList,
     categoryOptions,
     typeOptions,
@@ -197,9 +187,11 @@ export const useBudgetStore = defineStore('budget', () => {
     totalAmount,
     totalPages,
     paginatedList,
-    // actions
+    // 액션
     fetchTransactions,
     fetchTransactionDetail,
     goToPage,
+    addTransaction,
+    updateTransaction,
   }
 })
