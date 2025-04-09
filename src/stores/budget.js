@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
-import { getBudgetBook, getBudgetBookById } from '@/api/budgetBook/budgetBookService'
+import {
+  editBudgetBook,
+  getBudgetBook,
+  getBudgetBookById,
+  postBudgetBook,
+} from '@/api/budgetBook/budgetBookService'
 
 export const useBudgetStore = defineStore('budget', {
   state: () => ({
@@ -134,6 +139,25 @@ export const useBudgetStore = defineStore('budget', {
     goToPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page
+      }
+    },
+
+    //---------------------------------------------------------------//
+    //------------------------AddBudgetbook--------------------------//
+    //---------------------------------------------------------------//
+    async addTransaction(data) {
+      try {
+        await postBudgetBook(data)
+      } catch (e) {
+        console.log('[ERROR]', e)
+      }
+    },
+
+    async updateTransaction(id, data) {
+      try {
+        await editBudgetBook(id, data)
+      } catch (e) {
+        console.log('[ERROR]', e)
       }
     },
   },

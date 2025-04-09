@@ -5,7 +5,6 @@ import SignupPage from '@/pages/user/SignupPage.vue'
 import ProfileEditPage from '@/pages/user/ProfileEditPage.vue'
 import BudgetListPage from '@/pages/budgets/BudgetListPage.vue'
 import BudgetDetailPage from '@/pages/budgets/BudgetDetailPage.vue'
-import AddBudgetDetailPage from '@/pages/budgets/AddBudgetDetailPage.vue'
 import UpdateBudgetDetailPage from '@/pages/budgets/UpdateBudgetDetailPage.vue'
 
 const router = createRouter({
@@ -41,11 +40,6 @@ const router = createRouter({
       path: '/budgetDetail/:id',
       name: 'budgetDetailPage',
       component: BudgetDetailPage,
-    },
-    {
-      path: '/addBugetDetail',
-      name: 'addBudgetDetailPage',
-      component: AddBudgetDetailPage,
     },
     {
       path: '/updateBudgetDetail',
