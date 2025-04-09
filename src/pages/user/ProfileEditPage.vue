@@ -91,7 +91,6 @@
 </template>
 
 <script setup>
-import { removeUserById } from '@/api/user/userService'
 import { useUserStore } from '@/stores/userStore'
 import { Modal } from 'bootstrap/dist/js/bootstrap.min'
 import { onMounted, ref, computed, nextTick } from 'vue'
@@ -156,16 +155,8 @@ const closeModal = () => {
 }
 
 const withdraw = async () => {
-  try {
-    await removeUserById(userStore.loggedUser.id)
-    alert('탈퇴 성공')
-    localStorage.removeItem('loggedUser')
-    closeModal()
-    window.location.href = '/login'
-  } catch (error) {
-    alert('탈퇴 중 오류가 발생')
-    console.error(error)
-  }
+  const result = await userStore.withdrawHandler()
+  if (result) closeModal()
 }
 </script>
 

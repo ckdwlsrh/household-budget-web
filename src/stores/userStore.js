@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
-import { createUser, editUserById, getUsers } from '@/api/user/userService'
+import { createUser, editUserById, getUsers, removeUserById } from '@/api/user/userService'
 
 export const useUserStore = defineStore('user', () => {
   const username = ref('')
@@ -146,6 +146,27 @@ export const useUserStore = defineStore('user', () => {
     window.location.href = '/login'
   }
 
+  //회원탈퇴 핸들러
+  const withdrawHandler = async () => {
+    if (!loggedUser.value) {
+      alert('로그인이 필요합니다.')
+      return false
+    }
+
+    try {
+      await removeUserById(loggedUser.value.id)
+      alert('탈퇴 성공')
+      localStorage.removeItem('loggedUser')
+      loggedUser.value = null
+      window.location.href = '/login'
+      return true
+    } catch (error) {
+      console.error('탈퇴 중 오류:', error)
+      alert('탈퇴 중 오류가 발생했습니다.')
+      return false
+    }
+  }
+
   // LoginPage로 이동
   const goToLogin = () => {
     router.push('/login')
@@ -174,5 +195,6 @@ export const useUserStore = defineStore('user', () => {
     getLoggedUser,
     changePassword,
     logoutHandler,
+    withdrawHandler,
   }
 })
