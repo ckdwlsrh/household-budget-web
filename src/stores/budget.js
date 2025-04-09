@@ -1,164 +1,197 @@
+// /store/budgetList.js
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 import {
   editBudgetBook,
   getBudgetBook,
   getBudgetBookById,
   postBudgetBook,
 } from '@/api/budgetBook/budgetBookService'
+import { useUserStore } from '@/stores/userStore'
 
-export const useBudgetStore = defineStore('budget', {
-  state: () => ({
-    transactions: [], // 원본 배열
-    transactionsDetail: null, // 상세 페이지용 배열
+export const useBudgetStore = defineStore('budget', () => {
+  // 상태(state)
+  const transactions = ref([]) // 전체 거래 내역
+  const transactionsDetail = ref(null) // 상세 거래 내역
 
-    // 카테고리
-    selectedType: '',
-    selectedCategory: '',
-    selectedDate: '',
+  // 필터 상태
+  const selectedType = ref('')
+  const selectedCategory = ref('')
+  const selectedDate = ref('')
+  const selectedMonth = ref('')
+  // 월 옵션 (문자열 형식: '01', '02', ...)
+  const availableMonths = ref([
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+  ])
 
-    // 페이지네이션
-    currentPage: 1,
-    itemsPerPage: 5,
+  // 페이지네이션
+  const currentPage = ref(1)
+  const itemsPerPage = ref(5)
 
-    // 내림차순
-    sortField: 'createdDate',
-    sortOrder: 'desc',
-  }),
+  // 정렬 관련
+  const sortField = ref('createdDate')
+  const sortOrder = ref('desc')
 
-  getters: {
-    // 내림차순(최신순으로 정렬)
-    sortedDescList: (state) => {
-      const list = [...state.transactions]
-      const { sortField, sortOrder } = state
+  // 로그인 정보 (user filtering)
+  const userStore = useUserStore()
 
-      return list.sort((a, b) => {
-        // a.createdDate < b.createdDate
+  // ------------------- Computed (Getters) -------------------
 
-        const aValue = a[sortField]
-        const bValue = b[sortField]
-
-        // 날짜 정렬
-        if (sortField === 'createdDate') {
-          return sortOrder === 'asc'
-            ? new Date(aValue) - new Date(bValue)
-            : new Date(bValue) - new Date(aValue)
-        }
-        // 숫자 정렬 (ex: amount)
-        return sortOrder === 'asc' ? aValue - bValue : aValue - bValue
-      })
-    },
-
-    //---------------------------------------------------------------//
-    //------------------------[getters]필터--------------------------//
-    //---------------------------------------------------------------//
-    // 필터 조건 추출
-    categoryOptions: (state) => {
-      const set = new Set(state.transactions.map((t) => t.category)) // Set을 통해 중복 카테고리 제거
-      return Array.from(set) // 배열로 변환
-    },
-
-    typeOptions: (state) => {
-      const set = new Set(state.transactions.map((t) => t.transactionType)) // Set을 통해 중복 카테고리 제거
-      return Array.from(set) // 배열로 변환
-    },
-
-    // 필터링된 목록 추출
-    // 리팩토링 고려 중
-    filteredList: (state) => {
-      return state.sortedDescList.filter((item) => {
-        const matchType = state.selectedType ? item.transactionType === state.selectedType : true
-        const matchCategory = state.selectedCategory
-          ? item.category === state.selectedCategory
-          : true
-        const matchDate = state.selectedDate
-          ? item.createdDate &&
-            typeof item.createdDate === 'string' &&
-            item.createdDate.slice(0, 10) === state.selectedDate
-          : true
-        return matchType && matchCategory && matchDate
-      })
-    },
-
-    // 필터별 합산 금액
-    totalAmount: (state) => {
-      const incomeAmount = state.filteredList
-        .filter((t) => t.transactionType === 'income')
-        .reduce((sum, income) => sum + income.amount, 0)
-      const expenseAmount = state.filteredList
-        .filter((t) => t.transactionType === 'expense')
-        .reduce((sum, expense) => sum + expense.amount, 0)
-
-      return incomeAmount - expenseAmount
-    },
-
-    //---------------------------------------------------------------//
-    //--------------------[getters]페이지네이션----------------------//
-    //---------------------------------------------------------------//
-
-    // 페이지 수 계산
-    totalPages: (state) => {
-      // [반올림](전체 거래 내역 수 ÷ 표시할 거래 내역 수)
-      return Math.ceil(state.filteredList.length / state.itemsPerPage)
-    },
-
-    // 현재 페이지에 해당하는 항목
-    paginatedList: (state) => {
-      const start = (state.currentPage - 1) * state.itemsPerPage
-      const end = start + state.itemsPerPage
-      return state.filteredList.slice(start, end)
-    },
-  },
-
-  actions: {
-    async fetchTransactions() {
-      try {
-        const result = await getBudgetBook()
-        this.transactions = result
-      } catch (e) {
-        console.error('[ERROR] fetchTransactions:', e)
+  // 최신순 정렬된 거래 내역
+  const sortedDescList = computed(() => {
+    const list = [...transactions.value]
+    const sf = sortField.value
+    const so = sortOrder.value
+    return list.sort((a, b) => {
+      const aValue = a[sf]
+      const bValue = b[sf]
+      if (sf === 'createdDate') {
+        return so === 'asc'
+          ? new Date(aValue) - new Date(bValue)
+          : new Date(bValue) - new Date(aValue)
       }
-    },
+      return so === 'asc' ? aValue - bValue : aValue - bValue
+    })
+  })
 
-    //---------------------------------------------------------------//
-    //------------------------DetailPage-----------------------------//
-    //---------------------------------------------------------------//
-    async fetchTransactionDetail(id) {
-      try {
-        const item = await getBudgetBookById(id)
-        this.transactionsDetail = item
-      } catch (e) {
-        console.log('[ERROR]', e)
-      }
-    },
+  // 카테고리 옵션 (중복 제거)
+  const categoryOptions = computed(() => {
+    const set = new Set(transactions.value.map((t) => t.category))
+    return Array.from(set)
+  })
 
-    //---------------------------------------------------------------//
-    //--------------------[Action]페이지네이션-----------------------//
-    //---------------------------------------------------------------//
+  // 거래 유형 옵션 (중복 제거)
+  const typeOptions = computed(() => {
+    const set = new Set(transactions.value.map((t) => t.transactionType))
+    return Array.from(set)
+  })
 
-    // 페이지 이동
-    goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page
-      }
-    },
+  // 필터링된 거래 내역 (로그인 유저, 거래 유형, 카테고리, 월, 날짜 조건 적용)
+  const filteredList = computed(() => {
+    return sortedDescList.value.filter((item) => {
+      const matchUser = userStore.loggedUser ? item.userId === userStore.loggedUser.id : false
+      const matchType = selectedType.value ? item.transactionType === selectedType.value : true
+      const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
+      const matchMonth = selectedMonth.value
+        ? item.createdDate.slice(5, 7) === selectedMonth.value
+        : true
+      const matchDate = selectedDate.value
+        ? item.createdDate &&
+          typeof item.createdDate === 'string' &&
+          item.createdDate.slice(0, 10) === selectedDate.value
+        : true
+      return matchUser && matchType && matchCategory && matchMonth && matchDate
+    })
+  })
 
-    //---------------------------------------------------------------//
-    //------------------------AddBudgetbook--------------------------//
-    //---------------------------------------------------------------//
-    async addTransaction(data) {
-      try {
-        await postBudgetBook(data)
-      } catch (e) {
-        console.log('[ERROR]', e)
-      }
-    },
+  // 필터 조건에 맞는 총 합산 금액 (수입 - 지출)
+  const totalAmount = computed(() => {
+    const incomeAmount = filteredList.value
+      .filter((t) => t.transactionType === 'income')
+      .reduce((sum, income) => sum + income.amount, 0)
+    const expenseAmount = filteredList.value
+      .filter((t) => t.transactionType === 'expense')
+      .reduce((sum, expense) => sum + expense.amount, 0)
+    return incomeAmount - expenseAmount
+  })
 
-    async updateTransaction(id, data) {
-      try {
-        await editBudgetBook(id, data)
-      } catch (e) {
-        console.log('[ERROR]', e)
-      }
-    },
-  },
+  // 페이지네이션: 총 페이지 수
+  const totalPages = computed(() => {
+    return Math.ceil(filteredList.value.length / itemsPerPage.value)
+  })
+
+  // 페이지네이션: 현재 페이지에 해당하는 거래 내역 목록
+  const paginatedList = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage.value
+    const end = start + itemsPerPage.value
+    return filteredList.value.slice(start, end)
+  })
+
+  // ------------------- Actions -------------------
+
+  // 전체 거래 내역을 불러옴
+  const fetchTransactions = async () => {
+    try {
+      const result = await getBudgetBook()
+      transactions.value = result
+    } catch (e) {
+      console.error('[ERROR] fetchTransactions:', e)
+    }
+  }
+
+  // 상세 거래 내역을 불러옴
+  const fetchTransactionDetail = async (id) => {
+    try {
+      const item = await getBudgetBookById(id)
+      transactionsDetail.value = item
+    } catch (e) {
+      console.error('[ERROR] fetchTransactionDetail:', e)
+    }
+  }
+
+  // 페이지 이동
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+      currentPage.value = page
+    }
+  }
+
+  // 거래 내역 추가
+  const addTransaction = async (data) => {
+    try {
+      await postBudgetBook(data)
+    } catch (e) {
+      console.error('[ERROR] addTransaction:', e)
+    }
+  }
+
+  // 거래 내역 수정
+  const updateTransaction = async (id, data) => {
+    try {
+      await editBudgetBook(id, data)
+    } catch (e) {
+      console.error('[ERROR] updateTransaction:', e)
+    }
+  }
+
+  // ------------------- 반환 (Return) -------------------
+  return {
+    // 상태
+    transactions,
+    transactionsDetail,
+    selectedType,
+    selectedCategory,
+    selectedDate,
+    selectedMonth,
+    availableMonths,
+    currentPage,
+    itemsPerPage,
+    sortField,
+    sortOrder,
+    // computed 값들
+    sortedDescList,
+    categoryOptions,
+    typeOptions,
+    filteredList,
+    totalAmount,
+    totalPages,
+    paginatedList,
+    // 액션
+    fetchTransactions,
+    fetchTransactionDetail,
+    goToPage,
+    addTransaction,
+    updateTransaction,
+  }
 })
