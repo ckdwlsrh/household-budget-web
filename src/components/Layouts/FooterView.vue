@@ -3,24 +3,19 @@
     <div class="container mx-auto text-left">
       <p style="font-family: sans-serif">
         Copyright © 2025 TEAM.2 All Rights Reserved.
-
         <!-- 아이콘 비활성화 -->
-        <!-- <span style="float: right"
+        <span style="float: right"
           ><a href="#" aria-label="Instagram">
             <i class="fa-brands fa-instagram"></i>
           </a>
-          <a
-            href="https://github.com/ckdwlsrh/household-budget-web"
-            aria-label="GitHub"
-          >
+          <a href="https://github.com/ckdwlsrh/household-budget-web" aria-label="GitHub">
             <i class="fa-brands fa-github"></i>
           </a>
           <a href="#" aria-label="twitter">
             <i class="fa-brands fa-twitter"></i>
           </a>
-          <a href="#" aria-label="twitter">
-            <i class="fa-solid fa-envelope"></i> </a
-        ></span> -->
+          <a href="#" aria-label="twitter"> <i class="fa-solid fa-envelope"></i> </a
+        ></span>
       </p>
     </div>
   </footer>
@@ -28,7 +23,8 @@
 
 <script setup></script>
 <style scoped>
-/* .fa-brands {
-  margin-right: 5px;
-} */
+a {
+  margin-right: 2rem;
+  color: black;
+}
 </style>
