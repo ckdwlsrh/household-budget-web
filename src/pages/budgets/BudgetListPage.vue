@@ -97,6 +97,7 @@ import { useBudgetStore } from '@/stores/budget'
 const budgetStore = useBudgetStore()
 
 const router = useRouter()
+
 const handlrDetail = (itemId) => {
   router.push(`/budgetDetail/${itemId}`)
 }
