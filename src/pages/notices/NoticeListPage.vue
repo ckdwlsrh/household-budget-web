@@ -11,6 +11,7 @@
           <th>제목</th>
           <th>내용</th>
           <th>작성일</th>
+          <th v-if="userStore.loggedUser.role === 'admin'">삭제하기</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,9 @@
           <td>{{ notice.title }}</td>
           <td>{{ notice.desc }}</td>
           <td>{{ notice.createdDate.split('T')[0] }}</td>
+          <td v-if="userStore.loggedUser.role === 'admin'">
+            <button class="btn btn-outline-dark" @click="deleteNotice(notice.id)">삭제</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -34,7 +38,7 @@
 </template>
 
 <script setup>
-import { getNotices } from '@/api/notices/noticeService'
+import { getNotices, removeNotices } from '@/api/notices/noticeService'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -44,7 +48,7 @@ const userStore = useUserStore()
 
 const notices = ref([])
 
-const featchNotices = async () => {
+const fetchNotices = async () => {
   try {
     const data = await getNotices()
     notices.value = data
@@ -53,9 +57,18 @@ const featchNotices = async () => {
   }
 }
 
+const deleteNotice = async (id) => {
+  try {
+    await removeNotices(id)
+    fetchNotices()
+  } catch (error) {
+    console.error('에러발생: ', error)
+  }
+}
+
 onMounted(() => {
   userStore.getLoggedUser()
-  featchNotices()
+  fetchNotices()
 })
 
 const goToAddNotice = () => {
