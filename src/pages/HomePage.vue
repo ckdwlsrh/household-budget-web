@@ -64,7 +64,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import axios from 'axios'
-import GoogleChart1 from '@/components/google/GoogleChart1.vue'
+import GoogleChart1 from '@/components/google/GoogleChart2.vue'
 
 const incomeList = ref([])
 const expenseList = ref([])
