@@ -143,7 +143,7 @@ export const useUserStore = defineStore('user', () => {
   const logoutHandler = () => {
     localStorage.removeItem('loggedUser')
     loggedUser.value = null
-    router.push('/login')
+    window.location.href = '/login'
   }
 
   // LoginPage로 이동
