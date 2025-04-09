@@ -26,7 +26,7 @@
     </div>
     <div>
       <button class="btn btn-outline-dark" @click="goToNoticesList">목록보기</button>
-      <button class="btn btn-outline-dark" @click="addNotice2">추가하기</button>
+      <button class="btn btn-outline-dark" @click="addNotice">추가하기</button>
     </div>
   </div>
 </template>
@@ -34,11 +34,13 @@
 <script setup>
 import { createNotices } from '@/api/notices/noticeService'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const title = ref('')
 const desc = ref('')
+const router = useRouter()
 
-const addNotice2 = async () => {
+const addNotice = async () => {
   const koreaTime = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
   const newNotice = {
     title: title.value,
@@ -47,9 +49,14 @@ const addNotice2 = async () => {
   }
   try {
     await createNotices(newNotice)
+    goToNoticesList()
   } catch (error) {
     console.error('공지사항 작성 에러: ', error)
   }
+}
+
+const goToNoticesList = () => {
+  router.push('/noticeList')
 }
 </script>
 
