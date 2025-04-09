@@ -7,6 +7,7 @@ import BudgetListPage from '@/pages/budgets/BudgetListPage.vue'
 import BudgetDetailPage from '@/pages/budgets/BudgetDetailPage.vue'
 import AddBudgetDetailPage from '@/pages/budgets/AddBudgetDetailPage.vue'
 import UpdateBudgetDetailPage from '@/pages/budgets/UpdateBudgetDetailPage.vue'
+import HomePage from '@/pages/HomePage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
