@@ -35,6 +35,52 @@
             <button class="btn btn-secondary btn-lg" @click="cancelEdit">취소</button>
           </div>
         </div>
+
+        <p class="text-end mt-4 fs-6">
+          <small>
+            ❌ 더 이상 서비스를 이용하지 않으시나요?
+            <button type="button" class="btn btn-link p-0" @click="openModal">회원탈퇴</button>
+          </small>
+        </p>
+
+        <!-- 모달 -->
+        <div
+          v-if="showModal"
+          class="modal fade"
+          id="removeUser"
+          tabindex="-1"
+          aria-hidden="true"
+          ref="modalEl"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="removeUserLabel">회원탈퇴</h3>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  @click="closeModal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <h5 class="fw-normal">정말로 회원을 탈퇴하시겠습니까?</h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" @click="withdraw">예</button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  @click="closeModal"
+                >
+                  아니요
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
       </div>
     </div>
 
@@ -45,14 +91,19 @@
 </template>
 
 <script setup>
+import { removeUserById } from '@/api/user/userService'
 import { useUserStore } from '@/stores/userStore'
-import { onMounted, ref, computed } from 'vue'
+import { Modal } from 'bootstrap/dist/js/bootstrap.min'
+import { onMounted, ref, computed, nextTick } from 'vue'
 
 const userStore = useUserStore()
 
 const editingPassword = ref(false)
 const newPassword = ref('')
 const showPassword = ref(false)
+const showModal = ref(false)
+const modalEl = ref(null)
+let modalInstance = null
 
 const hidePassword = computed(() => '*'.repeat(userStore.loggedUser?.password?.length || 0))
 
@@ -86,6 +137,36 @@ const cancelEdit = () => {
 onMounted(() => {
   userStore.getLoggedUser()
 })
+
+const openModal = async () => {
+  showModal.value = true
+  await nextTick()
+
+  if (modalEl.value) {
+    modalInstance = new Modal(modalEl.value)
+    modalInstance.show()
+  }
+}
+
+const closeModal = () => {
+  if (modalInstance) {
+    modalInstance.hide()
+  }
+  showModal.value = false
+}
+
+const withdraw = async () => {
+  try {
+    await removeUserById(userStore.loggedUser.id)
+    alert('탈퇴 성공')
+    localStorage.removeItem('loggedUser')
+    closeModal()
+    window.location.href = '/login'
+  } catch (error) {
+    alert('탈퇴 중 오류가 발생')
+    console.error(error)
+  }
+}
 </script>
 
 <style scoped>
