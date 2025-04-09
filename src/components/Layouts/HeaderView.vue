@@ -4,21 +4,10 @@
       <div class="row">
         <div class="text-2xl col-md-8" style="color: black"><h2 @click="">2팀</h2></div>
         <div class="col-md-4 d-flex justify-content-end">
-          <template v-if="!isLoggedIn">
-            <RouterLink :to="{ name: 'loginPage' }">
-              <button class="bg-white text-blue-600 px-4 py-2 rounded mr-2 hover:bg-gray-200">
-                로그인
-              </button>
-            </RouterLink>
-            <RouterLink :to="{ name: 'signupPage' }">
-              <button class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-200">
-                회원가입
-              </button>
-            </RouterLink>
-          </template>
-
-          <template v-else>
-            <button @click="logOut" class="bg-white text-black px-4 py-2 rounded">로그아웃</button>
+          <template v-if="userStore.isLoggedIn">
+            <button @click="logOut()" class="bg-white text-black px-4 py-2 rounded">
+              로그아웃
+            </button>
           </template>
         </div>
       </div>
@@ -30,20 +19,21 @@
 import { RouterLink } from 'vue-router'
 import { onMounted } from 'vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
-const isLoggedIn = ref(false)
+const userStore = useUserStore()
 
 onMounted(() => {
-  const storedUser = localStorage.getItem('loggedUser')
+  const storedUser = userStore.getLoggedUser
   if (storedUser) {
-    isLoggedIn.value = true
+    userStore.isLoggedIn = true
   }
 })
 
 const logOut = () => {
-  localStorage.removeItem('loggedUser')
-  isLoggedIn.value = false
-  window.location.href = '/login'
+  userStore.isLoggedIn = false
+  userStore.logoutHandler()
 }
 </script>
 

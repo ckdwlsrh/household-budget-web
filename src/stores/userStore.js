@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, toRaw } from 'vue'
+import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { createUser, editUserById, getUsers } from '@/api/user/userService'
 
 export const useUserStore = defineStore('user', () => {
   const username = ref('')
@@ -12,14 +12,15 @@ export const useUserStore = defineStore('user', () => {
   const checkPassword = ref('')
   const agree = ref(false)
   const loggedUser = ref(null)
+  const isLoggedIn = ref(false)
 
   // 유저 전체 조회
-  const fetchUsers = async () => {
+  const getUsers = async () => {
     try {
-      const data = await getUsers()
-      users.value = data
+      const response = await axios.get('/api/user')
+      users.value = response.data
     } catch (error) {
-      console.error('유저 조회 오류: ', error)
+      console.error('유저 조회 오류', error)
     }
   }
 
@@ -37,7 +38,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await fetchUsers()
+      await getUsers()
 
       const existUser = users.value.find(
         (user) => user.email === email.value && user.password === password.value,
@@ -46,6 +47,7 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
+        //리다이렉트 하기위해 router.push수정
         window.location.href = '/'
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
@@ -78,7 +80,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await fetchUsers()
+      await getUsers()
       const emailExist = users.value.find((user) => user.email === email.value)
 
       if (emailExist) {
@@ -86,7 +88,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await createUser({
+      await axios.post('/api/user', {
         username: username.value,
         email: email.value,
         password: password.value,
@@ -129,12 +131,12 @@ export const useUserStore = defineStore('user', () => {
     }
 
     try {
-      await editUserById(loggedUser.value.id, newVal)
+      await axios.put(`/api/user/${loggedUser.value.id}`, newVal)
       loggedUser.value.password = newPassword
       localStorage.setItem('loggedUser', JSON.stringify(loggedUser.value))
       return true
     } catch (error) {
-      console.error('비밀번호 변경 실패: ', error)
+      console.error('에러 발생: ', error)
       return false
     }
   }
@@ -164,6 +166,7 @@ export const useUserStore = defineStore('user', () => {
     agree,
     users,
     loggedUser,
+    isLoggedIn,
 
     isValidEmail,
     getUsers,
