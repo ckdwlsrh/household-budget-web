@@ -24,7 +24,10 @@
     </table>
     <!--  -->
 
-    <div style="display: flex; justify-content: flex-end; margin-top: 20px">
+    <div
+      v-if="userStore.loggedUser.role === 'admin'"
+      style="display: flex; justify-content: flex-end; margin-top: 20px"
+    >
       <button class="btn btn-outline-dark" @click="goToAddNotice">추가하기</button>
     </div>
   </div>
@@ -32,10 +35,13 @@
 
 <script setup>
 import { getNotices } from '@/api/notices/noticeService'
+import { useUserStore } from '@/stores/userStore'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const userStore = useUserStore()
+
 const notices = ref([])
 
 const featchNotices = async () => {
@@ -48,6 +54,7 @@ const featchNotices = async () => {
 }
 
 onMounted(() => {
+  userStore.getLoggedUser()
   featchNotices()
 })
 
