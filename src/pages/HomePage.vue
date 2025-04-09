@@ -1,5 +1,13 @@
 <template>
-  <GoogleChart2 :income="incomeList" :expense="expenseList" />
+  <div class="d-flex justify-content-center align-items-center gap-2">
+    <button class="btn btn-primary" @click="previousMonth">이전 달</button>
+    <h2>{{ month }}월</h2>
+    <button class="btn btn-primary" @click="nextMonth">다음 달</button>
+  </div>
+  <div class="chart">
+    <GoogleChart1 :income="incomeList" :expense="expenseList" />
+    <GoogleChart2 :income="incomeList" :expense="expenseList" />
+  </div>
   <div class="card-container">
     <div class="card">
       <div class="card-body">
@@ -59,23 +67,55 @@
   <div class="summary">
     <h2>총 잔액: {{ balance }}</h2>
   </div>
+
+  <button class="btn btn-primary rounded-circle shadow btn-floating" @click="openModal">+</button>
+
+  <AddBudgetDetail :showModal="showModal" :userId="userId" @close="showModal = false" />
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import axios from 'axios'
-
+import GoogleChart1 from '@/components/google/GoogleChart1.vue'
 import GoogleChart2 from '@/components/google/GoogleChart2.vue'
+import AddBudgetDetail from '../components/modal/AddBudgetDetail.vue'
+import { useUserStore } from '@/stores/userStore'
+
 const incomeList = ref([])
 const expenseList = ref([])
+const month = ref(new Date().getMonth() + 1)
+
+function previousMonth() {
+  if (month.value > 1) {
+    month.value -= 1
+  }
+}
+
+function nextMonth() {
+  if (month.value < 12) {
+    month.value += 1
+  }
+}
+watch(month, () => {
+  requestAPI()
+})
 
 const requestAPI = async () => {
   try {
     const response = await axios.get('http://localhost:3000/budgetBook')
     const budgetData = response.data
 
-    incomeList.value = budgetData.filter((item) => item.transactionType === 'income')
-    expenseList.value = budgetData.filter((item) => item.transactionType === 'expense')
+    incomeList.value = budgetData.filter(
+      (item) =>
+        item.transactionType === 'income' &&
+        parseInt(item.updatedDate.slice(5, 7), 10) === month.value,
+    )
+    expenseList.value = budgetData.filter(
+      (item) =>
+        item.transactionType === 'expense' &&
+        parseInt(item.updatedDate.slice(5, 7), 10) === month.value,
+    )
+    console.log(month)
   } catch (error) {
     console.error('API 요청 오류:', error)
   }
@@ -91,6 +131,16 @@ const expenseTotal = computed(() => {
 })
 
 const balance = computed(() => incomeListTotal.value - expenseTotal.value)
+
+//add detail page
+const userStore = useUserStore()
+const showModal = ref(false)
+const userId = ref(null)
+const openModal = () => {
+  userStore.getLoggedUser()
+  userId.value = userStore.loggedUser.id
+  showModal.value = true
+}
 </script>
 
 <style scoped>
@@ -120,5 +170,21 @@ const balance = computed(() => incomeListTotal.value - expenseTotal.value)
 .summary {
   text-align: center;
   margin-top: 30px;
+}
+
+.btn-floating {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+  z-index: 999;
+}
+.chart {
+  width: 1400px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
 }
 </style>

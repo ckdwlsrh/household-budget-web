@@ -45,6 +45,16 @@
       "transactionType": "expense",
       "category": "교통비",
       "memo": "버스 교통카드 충전"
+    },
+    {
+      "id": "52fc",
+      "userId": "u123",
+      "createdDate": "2025-04-09",
+      "updatedDate": "2025-04-09",
+      "amount": 500000,
+      "transactionType": "income",
+      "category": "월급",
+      "memo": "KB"
     }
   ],
   "category": [

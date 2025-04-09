@@ -31,7 +31,7 @@ const budgetStore = useBudgetStore()
 const { transactionsDetail } = storeToRefs(budgetStore)
 
 const goBack = () => {
-  router.push('/')
+  router.push('/budgetList')
 }
 
 onMounted(() => {

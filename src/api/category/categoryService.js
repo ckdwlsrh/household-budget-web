@@ -20,3 +20,5 @@ const getCategoryById = async (id) => {
     handleError(error)
   }
 }
+
+export { getCategories, getCategoryById }
