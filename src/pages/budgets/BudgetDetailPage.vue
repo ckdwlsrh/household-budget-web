@@ -52,6 +52,7 @@ import { onMounted } from 'vue'
 import { useBudgetStore } from '@/stores/budget'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/userStore'
+import { removeBudgetBookById } from '@/api/budgetBook/budgetBookService'
 
 const route = useRoute()
 const router = useRouter()
@@ -67,12 +68,23 @@ const { transactionsDetail } = storeToRefs(budgetStore)
 const goBack = () => {
   router.push('/budgetList')
 }
+
 const editDetail = () => {
   router.push(`/updateBudgetDetail/${id}`)
 }
-const deleteDetail = () => {
-  // 삭제 메소드
+
+const deleteDetail = async () => {
+  if (window.confirm('정말 삭제하시겠습니까?')) {
+    try {
+      await removeBudgetBookById(id)
+      router.push('/budgetList')
+      budgetStore.fetchTransactions()
+    } catch (e) {
+      console.log('[ERROR]', e)
+    }
+  }
 }
+
 onMounted(() => {
   budgetStore.fetchTransactionDetail(id)
 })
