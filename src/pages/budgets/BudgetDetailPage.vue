@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="d-flex justify-content-center p-5">
     <div class="card" style="width: 50rem">
       <div class="card-header text-center">거래 내역 상세 보기</div>
@@ -41,6 +42,25 @@
         <button class="btn btn-danger me-2" @click="deleteDetail">삭제하기</button>
         <button class="btn btn-warning me-2" @click="editDetail">수정하기</button>
         <button class="btn btn-secondary" @click="goBack">뒤로가기</button>
+=======
+  <div class="container mt-4">
+    <div class="card p-4 mb-4">
+      <div v-if="transactionsDetail">
+        <h2>거래 상세 정보</h2>
+        <p>거래 유형: {{ transactionsDetail.transactionType }}</p>
+        <p>카테고리: {{ transactionsDetail.category }}</p>
+        <p>금액: {{ transactionsDetail.amount }}</p>
+        <p>거래 날짜: {{ transactionsDetail.createdDate }}</p>
+        <p>수정 날짜: {{ transactionsDetail.updatedDate }}</p>
+        <p>메모: {{ transactionsDetail.memo }}</p>
+      </div>
+      <div v-else>
+        <p>거래 정보를 불러오는 중...</p>
+      </div>
+      <div class="mt-4">
+        <button class="btn btn-dark me-2" @click="goBack">뒤로가기</button>
+        <button class="btn btn-danger me-2" @click="deleteTransAction">거래 내역 삭제</button>
+>>>>>>> be06887 (월별 필터 추가)
       </div>
     </div>
   </div>
@@ -51,7 +71,11 @@ import { useRoute, useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { useBudgetStore } from '@/stores/budget'
 import { storeToRefs } from 'pinia'
+<<<<<<< HEAD
 import { useUserStore } from '@/stores/userStore'
+=======
+import { removeBudgetBookById } from '@/api/budgetBook/budgetBookService'
+>>>>>>> be06887 (월별 필터 추가)
 
 const route = useRoute()
 const router = useRouter()
@@ -67,12 +91,28 @@ const { transactionsDetail } = storeToRefs(budgetStore)
 const goBack = () => {
   router.push('/budgetList')
 }
+<<<<<<< HEAD
 const editDetail = () => {
   router.push(`/updateBudgetDetail/${id}`)
 }
 const deleteDetail = () => {
   // 삭제 메소드
 }
+=======
+
+const deleteTransAction = async (id) => {
+  if (window.confirm('정말 삭제하시겠습니까?')) {
+    try {
+      await removeBudgetBookById(id)
+      router.push('/budgetList')
+      budgetStore.fetchTransactions()
+    } catch (e) {
+      console.log('[ERROR]', e)
+    }
+  }
+}
+
+>>>>>>> be06887 (월별 필터 추가)
 onMounted(() => {
   budgetStore.fetchTransactionDetail(id)
 })

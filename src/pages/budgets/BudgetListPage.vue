@@ -17,6 +17,13 @@
           </option>
         </select>
 
+        <select v-model="budgetStore.selectedMonth">
+          <option value="">전체(월)</option>
+          <option v-for="mon in budgetStore.availableMonths" :key="mon" :value="mon">
+            {{ mon }}
+          </option>
+        </select>
+
         <input type="date" v-model="budgetStore.selectedDate" />
       </div>
     </div>
@@ -40,6 +47,7 @@
             :key="item.id"
             :transactions="item"
             @handlrDetail="handlrDetail"
+            class="pointer"
           ></BudgetListItem>
         </tbody>
       </table>
@@ -47,7 +55,7 @@
       <!-- 잔액 금액 -->
       <div class="total-box mt-4">
         <strong>
-          <span v-if="budgetStore.selectedType === ''"
+          <span v-if="!budgetStore.selectedType"
             >총 잔액: {{ (budgetStore.totalAmount || 0).toLocaleString() }} 원</span
           >
           <span v-else-if="budgetStore.selectedType === 'income'"
@@ -98,6 +106,7 @@ const budgetStore = useBudgetStore()
 
 const router = useRouter()
 
+// 상세 페이지 핸들러 메소드
 const handlrDetail = (itemId) => {
   router.push(`/budgetDetail/${itemId}`)
 }
@@ -198,5 +207,9 @@ ul {
   background: #007bff;
   color: white;
   font-weight: bold;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>
