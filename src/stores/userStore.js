@@ -113,6 +113,7 @@ export const useUserStore = defineStore('user', () => {
       loggedUser.value = JSON.parse(storedUser)
     } else {
       alert('로그인을 해주세요')
+      router.push('/login')
     }
   }
 
