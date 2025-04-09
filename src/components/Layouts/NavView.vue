@@ -2,7 +2,7 @@
   <nav class="bg-gray-800 text-white">
     <div class="container">
       <div class="row">
-        <template v-if="isLoggedIn">
+        <template v-if="userStore.isLoggedIn">
           <ul class="nav nav-pills nav-justified">
             <div class="nav-item">
               <RouterLink
@@ -41,15 +41,18 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/userStore'
 
-const isLoggedIn = ref(false)
+const userStore = useUserStore()
 
 onMounted(() => {
-  const storedUser = localStorage.getItem('loggedUser')
-  if (storedUser) {
-    isLoggedIn.value = true
+  const storedUser = userStore.getLoggedUser
+  if (!storedUser) {
+    userStore.isLoggedIn = false
+  } else {
+    userStore.isLoggedIn = true
   }
 })
 </script>

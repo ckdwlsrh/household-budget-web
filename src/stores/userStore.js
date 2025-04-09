@@ -12,6 +12,7 @@ export const useUserStore = defineStore('user', () => {
   const checkPassword = ref('')
   const agree = ref(false)
   const loggedUser = ref(null)
+  const isLoggedIn = ref(false)
 
   // 유저 전체 조회
   const fetchUsers = async () => {
@@ -46,7 +47,9 @@ export const useUserStore = defineStore('user', () => {
       if (existUser) {
         console.log('로그인 성공:', toRaw(existUser))
         localStorage.setItem('loggedUser', JSON.stringify(toRaw(existUser)))
+
         loggedUser.value = existUser
+
         router.push('/')
       } else {
         alert('이메일 또는 비밀번호가 일치하지 않습니다.')
@@ -200,6 +203,7 @@ export const useUserStore = defineStore('user', () => {
     agree,
     users,
     loggedUser,
+    isLoggedIn,
 
     isValidEmail,
     getUsers,
