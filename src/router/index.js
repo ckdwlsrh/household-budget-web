@@ -42,7 +42,7 @@ const router = createRouter({
       component: BudgetDetailPage,
     },
     {
-      path: '/updateBudgetDetail',
+      path: '/updateBudgetDetail/:id',
       name: 'updateBudgetDetail',
       component: UpdateBudgetDetailPage,
     },
