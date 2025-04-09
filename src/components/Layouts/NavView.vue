@@ -1,39 +1,37 @@
 <template>
-  <nav class="bg-gray-800 text-white">
+  <nav class="bg-gray-800 text-white" v-if="userStore.isLoggedIn">
     <div class="container">
       <div class="row">
-        <template v-if="userStore.isLoggedIn">
-          <ul class="nav nav-pills nav-justified">
-            <div class="nav-item">
-              <RouterLink
-                :to="{ name: 'homePage' }"
-                class="btn btn-link nav-link text-black custom-border"
-                >대시보드</RouterLink
-              >
-            </div>
-            <div class="nav-item">
-              <RouterLink
-                :to="{ name: 'profileEditPage' }"
-                class="btn btn-link nav-link text-black custom-border"
-                >내 정보</RouterLink
-              >
-            </div>
-            <div class="nav-item">
-              <RouterLink
-                :to="{ name: 'budgetListPage' }"
-                class="btn btn-link nav-link text-black custom-border"
-                >거래 내역</RouterLink
-              >
-            </div>
-            <div class="nav-item">
-              <RouterLink
-                :to="{ name: 'homePage' }"
-                class="btn btn-link nav-link text-black custom-border"
-                >월별 재정</RouterLink
-              >
-            </div>
-          </ul>
-        </template>
+        <ul class="nav nav-pills nav-justified">
+          <div class="nav-item">
+            <RouterLink
+              :to="{ name: 'homePage' }"
+              class="btn btn-link nav-link text-black custom-border"
+              >대시보드</RouterLink
+            >
+          </div>
+          <div class="nav-item">
+            <RouterLink
+              :to="{ name: 'profileEditPage' }"
+              class="btn btn-link nav-link text-black custom-border"
+              >내 정보</RouterLink
+            >
+          </div>
+          <div class="nav-item">
+            <RouterLink
+              :to="{ name: 'budgetListPage' }"
+              class="btn btn-link nav-link text-black custom-border"
+              >거래 내역</RouterLink
+            >
+          </div>
+          <div class="nav-item">
+            <RouterLink
+              :to="{ name: 'homePage' }"
+              class="btn btn-link nav-link text-black custom-border"
+              >월별 재정</RouterLink
+            >
+          </div>
+        </ul>
       </div>
     </div>
   </nav>
@@ -41,8 +39,7 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { onMounted, watch } from 'vue'
-import { ref } from 'vue'
+import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()

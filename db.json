@@ -13,6 +13,13 @@
       "password": "test",
       "username": "test계정",
       "role": "user"
+    },
+    {
+      "id": "db0d",
+      "username": "ckdwls",
+      "email": "ckdwls6504@gmail.com",
+      "password": "test",
+      "role": "user"
     }
   ],
   "budgetBook": [
