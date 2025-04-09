@@ -64,7 +64,7 @@ const transactionType = ref('')
 const amount = ref(0)
 const memo = ref('')
 const selectedCategory = ref('')
-const selectedDate = ref(new Date().toISOString().substring(0, 10))
+const selectedDate = ref(new Date().toISOString().split('T')[0])
 
 const submit = () => {
   //validate
@@ -89,7 +89,8 @@ const submit = () => {
     return false
   }
   const today = new Date()
-  if (selectedDate.value > today) {
+  const selected = new Date(selectedDate.value)
+  if (selected > today) {
     alert('미래 날짜는 선택할 수 없습니다')
     return false
   }
@@ -99,7 +100,7 @@ const submit = () => {
   const data = {
     userId: props.userId,
     createdDate: selectedDate.value,
-    updatedDate: selectedDate.value,
+    updatedDate: today.toISOString().split('T')[0],
     amount: amount.value,
     transactionType: transactionType.value,
     category: selectedCategory.value,

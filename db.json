@@ -50,8 +50,8 @@
       "id": "52fc",
       "userId": "u123",
       "createdDate": "2025-04-09",
-      "updatedDate": "2025-04-09",
-      "amount": 500000,
+      "updatedDate": "2025-04-08",
+      "amount": 50005,
       "transactionType": "income",
       "category": "월급",
       "memo": "KB"
@@ -85,6 +85,10 @@
     {
       "id": "c007",
       "item": "공과금"
+    },
+    {
+      "id": "c008",
+      "item": "기타"
     }
   ]
 }
