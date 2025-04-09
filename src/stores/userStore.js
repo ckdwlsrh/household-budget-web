@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, toRaw } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { createUser, getUsers } from '@/api/user/userService'
 
 export const useUserStore = defineStore('user', () => {
   const username = ref('')
@@ -14,12 +15,12 @@ export const useUserStore = defineStore('user', () => {
   const loggedUser = ref(null)
 
   // 유저 전체 조회
-  const getUsers = async () => {
+  const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/user')
-      users.value = response.data
+      const data = await getUsers()
+      users.value = data
     } catch (error) {
-      console.error('유저 조회 오류', error)
+      console.error('유저 조회 오류: ', error)
     }
   }
 
@@ -37,7 +38,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await getUsers()
+      await fetchUsers()
 
       const existUser = users.value.find(
         (user) => user.email === email.value && user.password === password.value,
@@ -78,7 +79,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await getUsers()
+      await fetchUsers()
       const emailExist = users.value.find((user) => user.email === email.value)
 
       if (emailExist) {
@@ -86,7 +87,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await axios.post('/api/user', {
+      await createUser({
         username: username.value,
         email: email.value,
         password: password.value,

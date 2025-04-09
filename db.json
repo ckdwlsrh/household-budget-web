@@ -13,6 +13,20 @@
       "password": "test",
       "username": "test계정",
       "role": "user"
+    },
+    {
+      "username": "aa",
+      "email": "aa@aa.com",
+      "password": "aa",
+      "role": "user",
+      "id": "nOFtLIn"
+    },
+    {
+      "username": "bb",
+      "email": "bb@bb.co",
+      "password": "bb",
+      "role": "user",
+      "id": "AdiBtfc"
     }
   ],
   "budgetBook": [
