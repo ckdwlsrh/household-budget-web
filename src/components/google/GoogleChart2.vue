@@ -4,7 +4,7 @@
 
 <script setup>
 import { onMounted, watch } from 'vue'
-import { toRaw, computed } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   income: Array,
