@@ -18,6 +18,7 @@ export const useBudgetStore = defineStore('budget', () => {
   const selectedType = ref('')
   const selectedCategory = ref('')
   const selectedDate = ref('')
+  const selectedYear = ref('')
   const selectedMonth = ref('')
   // 월 옵션 (문자열 형식: '01', '02', ...)
   const availableMonths = ref([
@@ -39,30 +40,23 @@ export const useBudgetStore = defineStore('budget', () => {
   const currentPage = ref(1)
   const itemsPerPage = ref(5)
 
-  // 정렬 관련
-  const sortField = ref('createdDate')
-  const sortOrder = ref('desc')
-
   // 로그인 정보 (user filtering)
   const userStore = useUserStore()
 
   // ------------------- Computed (Getters) -------------------
 
-  // 최신순 정렬된 거래 내역
+  // 날짜 정렬 리팩토링
   const sortedDescList = computed(() => {
     const list = [...transactions.value]
-    const sf = sortField.value
-    const so = sortOrder.value
     return list.sort((a, b) => {
-      const aValue = a[sf]
-      const bValue = b[sf]
-      if (sf === 'createdDate') {
-        return so === 'asc'
-          ? new Date(aValue) - new Date(bValue)
-          : new Date(bValue) - new Date(aValue)
-      }
-      return so === 'asc' ? aValue - bValue : aValue - bValue
+      return new Date(b.createdDate) - new Date(a.createdDate)
     })
+  })
+
+  // 연도 옵션
+  const availableYear = computed(() => {
+    const set = new Set(transactions.value.map((t) => t.createdDate.slice(0, 4)))
+    return Array.from(set)
   })
 
   // 카테고리 옵션 (중복 제거)
@@ -83,6 +77,9 @@ export const useBudgetStore = defineStore('budget', () => {
       const matchUser = userStore.loggedUser ? item.userId === userStore.loggedUser.id : false
       const matchType = selectedType.value ? item.transactionType === selectedType.value : true
       const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
+      const matchYear = selectedYear.value
+        ? item.createdDate.slice(0, 5) === selectedYear.value
+        : true
       const matchMonth = selectedMonth.value
         ? item.createdDate.slice(5, 7) === selectedMonth.value
         : true
@@ -91,7 +88,7 @@ export const useBudgetStore = defineStore('budget', () => {
           typeof item.createdDate === 'string' &&
           item.createdDate.slice(0, 10) === selectedDate.value
         : true
-      return matchUser && matchType && matchCategory && matchMonth && matchDate
+      return matchUser && matchType && matchCategory && matchYear && matchMonth && matchDate
     })
   })
 
@@ -172,13 +169,13 @@ export const useBudgetStore = defineStore('budget', () => {
     transactionsDetail,
     selectedType,
     selectedCategory,
-    selectedDate,
+    selectedYear,
     selectedMonth,
+    selectedDate,
+    availableYear,
     availableMonths,
     currentPage,
     itemsPerPage,
-    sortField,
-    sortOrder,
     // computed 값들
     sortedDescList,
     categoryOptions,
