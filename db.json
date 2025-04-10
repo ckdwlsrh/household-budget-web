@@ -103,6 +103,26 @@
       "transactionType": "income",
       "category": "용돈",
       "memo": "부모님께 받음"
+    },
+     {
+      "id": "792c",
+      "userId": "db0d",
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 1000000,
+      "transactionType": "income",
+      "category": "월급",
+      "memo": "상금"
+    },
+    {
+      "id": "12ff",
+      "userId": "db0d",
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 54353,
+      "transactionType": "expense",
+      "category": "유흥",
+      "memo": "nnh"
     }
   ],
   "category": [

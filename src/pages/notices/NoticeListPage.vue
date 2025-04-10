@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div style="padding: 30px; margin-top: 30px">
-      <h1 style="text-align: center">공지사항</h1>
+      <h1 style="text-align: center">공지 사항</h1>
     </div>
     <!--  -->
     <table class="notice-table table table-hover">
@@ -15,7 +15,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(notice, index) in notices" :key="index" @click="openModal(notice)">
+        <tr
+          v-for="(notice, index) in notices"
+          :key="index"
+          @click="openModal(notice)"
+          style="cursor: pointer"
+        >
           <td>{{ index + 1 }}</td>
           <td>
             <span>{{ notice.title }}</span>

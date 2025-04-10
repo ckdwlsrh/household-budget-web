@@ -109,6 +109,7 @@ const submit = () => {
   budgetStore.addTransaction(data)
   alert('저장되었습니다.')
   closeModal()
+  window.location.reload()
 }
 const closeModal = () => {
   emits('close')

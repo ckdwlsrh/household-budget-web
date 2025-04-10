@@ -7,7 +7,7 @@
           <select class="form-select" v-model="budgetStore.selectedType">
             <option value="">전체 유형</option>
             <option v-for="type in budgetStore.typeOptions" :key="type" :value="type">
-              {{ type }}
+              {{ type === 'income' ? '수입' : '지출' }}
             </option>
           </select>
         </div>
