@@ -40,8 +40,8 @@
     {
       "id": "b001",
       "userId": "u123",
-      "createdDate": "2025-04-01T09:00:00Z",
-      "updatedDate": "2025-04-01T09:00:00Z",
+      "createdDate": "2025-04-01",
+      "updatedDate": "2025-04-01",
       "amount": 3000000,
       "transactionType": "income",
       "category": "월급",
@@ -50,8 +50,8 @@
     {
       "id": "b002",
       "userId": "u123",
-      "createdDate": "2025-04-03T12:30:00Z",
-      "updatedDate": "2025-04-03T12:30:00Z",
+      "createdDate": "2025-04-03",
+      "updatedDate": "2025-04-03",
       "amount": 15000,
       "transactionType": "expense",
       "category": "식비",
@@ -60,8 +60,8 @@
     {
       "id": "b003",
       "userId": "u123",
-      "createdDate": "2025-04-05T18:45:00Z",
-      "updatedDate": "2025-04-05T18:45:00Z",
+      "createdDate": "2025-04-05",
+      "updatedDate": "2025-04-05",
       "amount": 30000,
       "transactionType": "expense",
       "category": "교통비",
@@ -147,19 +147,19 @@
       "id": "n001",
       "title": "서비스 점검 안내",
       "desc": "4월 10일 00시부터 02시까지 서버 점검이 진행됩니다.",
-      "createdDate": "2025-04-08T10:00:00Z"
+      "createdDate": "2025-04-08"
     },
     {
       "id": "n002",
       "title": "신규 기능 출시",
       "desc": "가계부에 통계 차트 기능이 추가되었습니다. 많은 이용 바랍니다!",
-      "createdDate": "2025-04-07T15:30:00Z"
+      "createdDate": "2025-04-07"
     },
     {
       "id": "n003",
       "title": "이벤트 당첨자 발표",
       "desc": "3월 가계부 작성 이벤트 당첨자를 확인하세요!",
-      "createdDate": "2025-04-05T08:45:00Z"
+      "createdDate": "2025-04-05"
     }
   ]
 }

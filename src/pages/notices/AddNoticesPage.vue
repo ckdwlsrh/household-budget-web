@@ -43,7 +43,7 @@ const desc = ref('')
 const router = useRouter()
 
 const addNotice = async () => {
-  const koreaTime = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString()
+  const koreaTime = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().split('T')[0]
   const newNotice = {
     title: title.value,
     desc: desc.value,
