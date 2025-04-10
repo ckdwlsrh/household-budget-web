@@ -78,7 +78,7 @@ export const useBudgetStore = defineStore('budget', () => {
       const matchType = selectedType.value ? item.transactionType === selectedType.value : true
       const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
       const matchYear = selectedYear.value
-        ? item.createdDate.slice(0, 5) === selectedYear.value
+        ? item.createdDate.slice(0, 4) === selectedYear.value
         : true
       const matchMonth = selectedMonth.value
         ? item.createdDate.slice(5, 7) === selectedMonth.value

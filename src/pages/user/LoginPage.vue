@@ -1,5 +1,6 @@
 <template>
   <div class="container d-flex justify-content-center align-items-center full-height">
+      <img src="../../assets/img/kb.png" class="kbImg" />
     <div class="col-md-5 mx-auto">
       <div class="myform">
         <div class="mb-3">
@@ -50,8 +51,9 @@
           <p class="text-center">
             <button class="btn btn-block mybtn btn-primary fw-bold" @click="userStore.goToSignUp">
               회원가입
-            </button>
-          </p>
+              </button>
+            </p>
+          </div>
         </div>
         <p class="text-end mt-4 fs-6">
           <small>
@@ -65,6 +67,7 @@
         <!-- 모달 -->
         <FindPassword :showModal="showModal" @close="closeModal"></FindPassword>
         <!--  -->
+
       </div>
     </div>
   </div>
@@ -94,6 +97,17 @@ const closeModal = () => {
 </script>
 
 <style scoped>
+.page-wrapper {
+  background-color: #fcfae9;
+}
+.container {
+  background-color: #fcfae9;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
 a {
   text-decoration: none !important;
 }
@@ -116,6 +130,10 @@ a {
 
 .mybtn {
   border-radius: 50px;
+  padding: 0.2rem 1rem;
+  font-weight: 500;
+  border-width: 1px;
+  transition: all 0.3s ease;
 }
 
 .login-or {
@@ -139,5 +157,43 @@ a {
 .hr-or {
   height: 1px;
   margin: 0 !important;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: inline-block;
+  color: #333;
+  font-size: 16px;
+}
+
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 15px;
+}
+
+.form-control::placeholder {
+  color: #aaa;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #ffb300;
+  box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.25);
+  background-color: #fff;
+}
+
+.kbImg {
+  height: 150px;
+  width: auto;
+  margin-bottom: 2rem;
+  margin-right: 1.5rem;
 }
 </style>

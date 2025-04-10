@@ -1,12 +1,33 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center gap-5" style="margin: 30px 0 0 0">
-    <button class="btn btn-primary btn-sm" @click="previousMonth">
-      <i class="bi bi-chevron-left"></i>
-    </button>
-    <h2>{{ month }}월</h2>
-    <button class="btn btn-primary btn-sm" @click="nextMonth">
-      <i class="bi bi-chevron-right"></i>
-    </button>
+  <div class="header-wrapper">
+    <div class="header-content">
+      <div class="center-buttons">
+        <div class="year-controls">
+          <button class="btn btn-sm" @click="previousYear">
+            <i class="fas fa-angle-left"></i>
+          </button>
+          <h5 class="m-0">{{ year }}년</h5>
+          <button class="btn btn-sm" @click="nextYear">
+            <i class="fas fa-angle-right"></i>
+          </button>
+        </div>
+        <div class="month-controls">
+          <button class="btn btn-primary btn-sm" @click="previousMonth">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <h2 class="m-0">{{ month }}월</h2>
+          <button class="btn btn-primary btn-sm" @click="nextMonth">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="balance-display">
+        <h3 class="text-success fw-bold d-flex justify-content-end align-items-center gap-2 m-0">
+          <i class="bi bi-cash-coin"></i>
+          총 잔액: {{ balance.toLocaleString() }}원
+        </h3>
+      </div>
+    </div>
   </div>
 
   <div class="card-container">
@@ -16,20 +37,20 @@
           <GoogleChart1 :income="incomeList" :expense="expenseList" />
         </div>
       </div>
+
       <div class="card">
-        <div class="card-body"></div>
-        <GoogleChart2 :income="incomeList" :expense="expenseList" />
+        <div class="card-body">
+          <GoogleChart2 :income="incomeList" :expense="expenseList" />
+        </div>
       </div>
     </div>
+
     <div class="card">
       <div class="card-body">
-        <!-- 수익 테이블 -->
-        <div>
-          <h5 style="font-weight: bold; margin: 0 0 20px 0">
-            총수익:
-            <span class="badge bg-success fs-6">{{ incomeTotal.toLocaleString() }}원</span>
-          </h5>
-        </div>
+        <h5 style="font-weight: bold; margin: 0 0 20px 0">
+          총수익:
+          <span class="badge bg-success fs-6">{{ incomeTotal.toLocaleString() }}원</span>
+        </h5>
         <table class="table">
           <thead>
             <tr>
@@ -51,15 +72,13 @@
       </div>
     </div>
 
+    <!-- 지출 -->
     <div class="card">
       <div class="card-body">
-        <!-- 지출 테이블 -->
-        <div>
-          <h5 style="font-weight: bold; margin: 0 0 20px 0">
-            총 지출 :
-            <span class="badge bg-danger fs-6"> {{ expenseTotal.toLocaleString() }}원 </span>
-          </h5>
-        </div>
+        <h5 style="font-weight: bold; margin: 0 0 20px 0">
+          총 지출:
+          <span class="badge bg-danger fs-6">{{ expenseTotal.toLocaleString() }}원</span>
+        </h5>
         <table class="table">
           <thead>
             <tr>
@@ -82,78 +101,35 @@
     </div>
   </div>
 
-  <div class="summary">
-    <h2 class="text-success fw-bold d-flex align-items-center justify-content-center gap-2">
-      <i class="bi bi-cash-coin"></i>
-      총 잔액: {{ balance.toLocaleString() }}원
-    </h2>
-  </div>
-
+  <!-- 플로팅 추가 버튼 -->
   <button class="btn btn-primary rounded-circle shadow btn-floating" @click="openModal">+</button>
 
   <AddBudgetDetail :showModal="showModal" :userId="userId" @close="showModal = false" />
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import axios from 'axios'
+import { ref, watch, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useHomePageStore } from '@/stores/homePageStore'
+import { useUserStore } from '@/stores/userStore'
 import GoogleChart1 from '@/components/google/GoogleChart1.vue'
 import GoogleChart2 from '@/components/google/GoogleChart2.vue'
-import AddBudgetDetail from '../components/modal/AddBudgetDetail.vue'
-import { useUserStore } from '@/stores/userStore'
+import AddBudgetDetail from '@/components/modal/AddBudgetDetail.vue'
 
-const incomeList = ref([])
-const expenseList = ref([])
-const month = ref(new Date().getMonth() + 1)
+const hpStore = useHomePageStore()
+const { month, year, incomeList, expenseList, incomeTotal, expenseTotal, balance } =
+  storeToRefs(hpStore)
+const { previousMonth, nextMonth, previousYear, nextYear, fetchBudgetData } = hpStore
 
-function previousMonth() {
-  if (month.value > 1) {
-    month.value -= 1
-  }
-}
-
-function nextMonth() {
-  if (month.value < 12) {
-    month.value += 1
-  }
-}
-watch(month, () => {
-  requestAPI()
+watch([month, year], () => {
+  fetchBudgetData()
 })
 
-const requestAPI = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/budgetBook')
-    const budgetData = response.data
-
-    incomeList.value = budgetData.filter(
-      (item) =>
-        item.transactionType === 'income' &&
-        parseInt(item.updatedDate.slice(5, 7), 10) === month.value,
-    )
-    expenseList.value = budgetData.filter(
-      (item) =>
-        item.transactionType === 'expense' &&
-        parseInt(item.updatedDate.slice(5, 7), 10) === month.value,
-    )
-    console.log(month)
-  } catch (error) {
-    console.error('API 요청 오류:', error)
-  }
-}
-requestAPI()
-
-const incomeTotal = computed(() => {
-  return incomeList.value.reduce((sum, item) => sum + Number(item.amount), 0)
+onMounted(() => {
+  fetchBudgetData()
 })
 
-const expenseTotal = computed(() => {
-  return expenseList.value.reduce((sum, item) => sum + Number(item.amount), 0)
-})
-
-const balance = computed(() => incomeTotal.value - expenseTotal.value)
-
-//add detail page
+// Modal
 const userStore = useUserStore()
 const showModal = ref(false)
 const userId = ref(null)
@@ -165,12 +141,55 @@ const openModal = () => {
 </script>
 
 <style scoped>
+.header-wrapper {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.header-content {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 1400px;
+  margin: 0 auto;
+  height: 120px;
+}
+
+.center-buttons {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.year-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.month-controls {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.balance-display {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  margin-right: 100px;
+}
+
 .card-container {
   display: flex;
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .card {
@@ -189,25 +208,21 @@ const openModal = () => {
   align-items: center;
 }
 
-.summary {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.btn-floating {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  width: 3.5rem;
-  height: 3.5rem;
-  font-size: 1.5rem;
-  z-index: 999;
-}
 .chart {
   width: 1400px;
   display: flex;
   margin: 0 auto;
   justify-content: center;
   gap: 20px;
+}
+
+.btn-floating {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+  z-index: 999;
 }
 </style>
