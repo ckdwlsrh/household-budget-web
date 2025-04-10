@@ -39,29 +39,16 @@ export const useBudgetStore = defineStore('budget', () => {
   const currentPage = ref(1)
   const itemsPerPage = ref(5)
 
-  // 정렬 관련
-  const sortField = ref('createdDate')
-  const sortOrder = ref('desc')
-
   // 로그인 정보 (user filtering)
   const userStore = useUserStore()
 
   // ------------------- Computed (Getters) -------------------
 
-  // 최신순 정렬된 거래 내역
+  // 날짜 정렬 리팩토링
   const sortedDescList = computed(() => {
     const list = [...transactions.value]
-    const sf = sortField.value
-    const so = sortOrder.value
     return list.sort((a, b) => {
-      const aValue = a[sf]
-      const bValue = b[sf]
-      if (sf === 'createdDate') {
-        return so === 'asc'
-          ? new Date(aValue) - new Date(bValue)
-          : new Date(bValue) - new Date(aValue)
-      }
-      return so === 'asc' ? aValue - bValue : aValue - bValue
+      return new Date(b.createdDate) - new Date(a.createdDate)
     })
   })
 
@@ -177,8 +164,8 @@ export const useBudgetStore = defineStore('budget', () => {
     availableMonths,
     currentPage,
     itemsPerPage,
-    sortField,
-    sortOrder,
+    // sortField,
+    // sortOrder,
     // computed 값들
     sortedDescList,
     categoryOptions,
