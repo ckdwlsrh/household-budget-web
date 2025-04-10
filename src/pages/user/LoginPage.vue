@@ -176,10 +176,10 @@ const searchPassword = async () => {
 
 <style scoped>
 .page-wrapper {
-  background-color: #faf8e7;
+  background-color: #fcfae9;
 }
 .container {
-  background-color: #faf8e7;
+  background-color: #fcfae9;
   display: flex;
   justify-content: center;
   align-content: center;
