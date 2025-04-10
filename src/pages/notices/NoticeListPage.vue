@@ -4,7 +4,7 @@
       <h1 style="text-align: center">공지사항</h1>
     </div>
     <!--  -->
-    <table class="notice-table">
+    <table class="notice-table table table-hover">
       <thead>
         <tr>
           <th>#</th>
