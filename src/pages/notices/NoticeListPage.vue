@@ -15,7 +15,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(notice, index) in notices" :key="index" @click="openModal(notice)">
+        <tr
+          v-for="(notice, index) in notices"
+          :key="index"
+          @click="openModal(notice)"
+          style="cursor: pointer"
+        >
           <td>{{ index + 1 }}</td>
           <td>
             <span>{{ notice.title }}</span>
