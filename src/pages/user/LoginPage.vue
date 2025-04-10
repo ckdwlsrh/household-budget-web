@@ -1,56 +1,57 @@
 <template>
-  <div class="container d-flex justify-content-center align-items-center full-height">
+  <div class="page-wrapper">
+    <div class="container d-flex justify-content-center align-items-center full-height">
       <img src="../../assets/img/kb.png" class="kbImg" />
-    <div class="col-md-5 mx-auto">
-      <div class="myform">
-        <div class="mb-3">
-          <div class="col-md-12 text-center h3 fw-bold">머니 매니저 로그인</div>
-        </div>
-        <div class="input-group input-group-lg mb-3">
-          <span class="input-group-text">
-            <i class="fa-regular fa-envelope"></i>
-          </span>
-          <input
-            type="email"
-            class="form-control"
-            placeholder="이메일을 입력해 주세요"
-            v-model="userStore.email"
-            @keyup.enter="userStore.loginHandler"
-            required
-          />
-        </div>
-        <div class="input-group input-group-lg">
-          <span class="input-group-text"><i class="fa-solid fa-lock"></i> </span>
-          <input
-            type="password"
-            class="form-control"
-            placeholder="비밀번호를 입력해 주세요"
-            v-model="userStore.password"
-            @keyup.enter="userStore.loginHandler"
-            required
-          />
-        </div>
-        <br />
-        <div class="col-md-12 text-center">
-          <button
-            type="submit"
-            class="btn btn-block mybtn btn-dark fw-bold"
-            @click.prevent="userStore.loginHandler"
-            :class="{ disabled: isLoginReady }"
-          >
-            로그인
-          </button>
-        </div>
-        <div class="col-md-12">
-          <div class="login-or">
-            <hr class="hr-or" />
-            <span class="span-or">or</span>
+      <div class="col-md-5 mx-auto">
+        <div class="myform">
+          <div class="mb-3">
+            <div class="col-md-12 text-center h3 fw-bold">머니 매니저 로그인</div>
           </div>
-        </div>
-        <div class="form-group">
-          <p class="text-center">
-            <button class="btn btn-block mybtn btn-primary fw-bold" @click="userStore.goToSignUp">
-              회원가입
+          <div class="input-group input-group-lg mb-3">
+            <span class="input-group-text">
+              <i class="fa-regular fa-envelope"></i>
+            </span>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="이메일을 입력해 주세요"
+              v-model="userStore.email"
+              @keyup.enter="userStore.loginHandler"
+              required
+            />
+          </div>
+          <div class="input-group input-group-lg">
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i> </span>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="비밀번호를 입력해 주세요"
+              v-model="userStore.password"
+              @keyup.enter="userStore.loginHandler"
+              required
+            />
+          </div>
+          <br />
+          <div class="col-md-12 text-center">
+            <button
+              type="submit"
+              class="btn btn-block mybtn btn-dark fw-bold"
+              @click.prevent="userStore.loginHandler"
+              :class="{ disabled: isLoginReady }"
+            >
+              로그인
+            </button>
+          </div>
+          <div class="col-md-12">
+            <div class="login-or">
+              <hr class="hr-or" />
+              <span class="span-or">or</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <p class="text-center">
+              <button class="btn btn-block mybtn btn-primary fw-bold" @click="userStore.goToSignUp">
+                회원가입
               </button>
             </p>
           </div>
@@ -67,7 +68,6 @@
         <!-- 모달 -->
         <FindPassword :showModal="showModal" @close="closeModal"></FindPassword>
         <!--  -->
-
       </div>
     </div>
   </div>
@@ -165,18 +165,6 @@ label {
   display: inline-block;
   color: #333;
   font-size: 16px;
-}
-
-.form-control {
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  padding: 0.75rem 1rem;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 1rem;
-  font-size: 15px;
 }
 
 .form-control::placeholder {
