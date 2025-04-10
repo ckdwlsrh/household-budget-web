@@ -96,9 +96,13 @@ const selectedNotice = ref(null)
 
 const isNew = (createdDate) => {
   const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+
   const created = new Date(createdDate)
+  const createdDay = new Date(created.getFullYear(), created.getMonth(), created.getDate())
+
   const day = 24 * 60 * 60 * 1000
-  return now - created < 3 * day
+  return today - createdDay < 4 * day
 }
 
 const fetchNotices = async () => {

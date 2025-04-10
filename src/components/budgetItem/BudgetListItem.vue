@@ -2,7 +2,7 @@
   <tr @click="emit('handlrDetail', props.transactions.id)">
     <td>{{ transactions.transactionType === 'income' ? '수입' : '지출' }}</td>
     <td>{{ transactions.category }}</td>
-    <td>{{ transactions.amount }}</td>
+    <td>{{ transactions.amount.toLocaleString() }} 원</td>
     <td>{{ transactions.createdDate }}</td>
     <td>{{ transactions.memo }}</td>
     <td>{{ transactions.updatedDate }}</td>
