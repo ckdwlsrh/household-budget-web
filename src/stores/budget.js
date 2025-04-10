@@ -20,6 +20,8 @@ export const useBudgetStore = defineStore('budget', () => {
   const selectedDate = ref('')
   const selectedYear = ref('')
   const selectedMonth = ref('')
+  const availableIncomeType = ref(['월급', '용돈', '이자', '기타'])
+  const availableExpenseType = ref(['식비', '교통비', '유흥', '기타'])
   // 월 옵션 (문자열 형식: '01', '02', ...)
   const availableMonths = ref([
     '01',
@@ -61,8 +63,20 @@ export const useBudgetStore = defineStore('budget', () => {
 
   // 카테고리 옵션 (중복 제거)
   const categoryOptions = computed(() => {
-    const set = new Set(transactions.value.map((t) => t.category))
-    return Array.from(set)
+    if (selectedType.value === 'income') {
+      const incomeCategories = transactions.value
+        .filter((t) => t.transactionType === 'income')
+        .map((t) => t.category)
+      return Array.from(new Set(incomeCategories))
+    } else if (selectedType.value === 'expense') {
+      const expenseCategories = transactions.value
+        .filter((t) => t.transactionType === 'expense')
+        .map((t) => t.category)
+      return Array.from(new Set(expenseCategories))
+    } else {
+      const allCategories = transactions.value.map((t) => t.category)
+      return Array.from(new Set(allCategories))
+    }
   })
 
   // 거래 유형 옵션 (중복 제거)
@@ -179,6 +193,8 @@ export const useBudgetStore = defineStore('budget', () => {
     // computed 값들
     sortedDescList,
     categoryOptions,
+    availableIncomeType,
+    availableExpenseType,
     typeOptions,
     filteredList,
     totalAmount,
