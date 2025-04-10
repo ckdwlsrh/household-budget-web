@@ -16,7 +16,7 @@
         <div v-if="!editingPassword" class="d-flex align-items-center gap-3 fs-5">
           <span>{{ showPassword ? userStore.loggedUser.password : hidePassword }}</span>
           <button class="btn btn-outline-secondary btn-lg" @click="toggleViewPassword">
-            {{ showPassword ? '숨기기' : '보기' }}
+            <i class="fa" :class="!showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
           </button>
           <button class="btn btn-outline-primary btn-lg" @click="editingPassword = true">
             수정
