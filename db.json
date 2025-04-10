@@ -78,14 +78,14 @@
       "memo": "KB"
     },
     {
-      "id": "9094",
+      "id": "4ca2",
       "userId": "db0d",
-      "createdDate": "2025-04-09",
-      "updatedDate": "2025-04-09",
-      "amount": 24424,
-      "transactionType": "income",
-      "category": "이자",
-      "memo": "12312312"
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 222,
+      "transactionType": "expense",
+      "category": "식비",
+      "memo": "adsfsafd"
     }
   ],
   "category": [
