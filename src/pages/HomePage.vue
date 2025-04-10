@@ -1,19 +1,34 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center gap-2">
-    <button class="btn btn-primary" @click="previousMonth">이전 달</button>
+  <div class="d-flex justify-content-center align-items-center gap-5" style="margin: 30px 0 0 0">
+    <button class="btn btn-primary btn-sm" @click="previousMonth">
+      <i class="bi bi-chevron-left"></i>
+    </button>
     <h2>{{ month }}월</h2>
-    <button class="btn btn-primary" @click="nextMonth">다음 달</button>
+    <button class="btn btn-primary btn-sm" @click="nextMonth">
+      <i class="bi bi-chevron-right"></i>
+    </button>
   </div>
-  <div class="chart">
-    <GoogleChart1 :income="incomeList" :expense="expenseList" />
-    <GoogleChart2 :income="incomeList" :expense="expenseList" />
-  </div>
+
   <div class="card-container">
+    <div class="chart">
+      <div class="card">
+        <div class="card-body">
+          <GoogleChart1 :income="incomeList" :expense="expenseList" />
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body"></div>
+        <GoogleChart2 :income="incomeList" :expense="expenseList" />
+      </div>
+    </div>
     <div class="card">
       <div class="card-body">
         <!-- 수익 테이블 -->
         <div>
-          <h4>총수익: {{ incomeListTotal }}</h4>
+          <h5 style="font-weight: bold; margin: 0 0 20px 0">
+            총수익:
+            <span class="badge bg-success fs-6">{{ incomeTotal.toLocaleString() }}원</span>
+          </h5>
         </div>
         <table class="table">
           <thead>
@@ -40,7 +55,10 @@
       <div class="card-body">
         <!-- 지출 테이블 -->
         <div>
-          <h4>총지출: {{ expenseTotal }}</h4>
+          <h5 style="font-weight: bold; margin: 0 0 20px 0">
+            총 지출 :
+            <span class="badge bg-danger fs-6"> {{ expenseTotal.toLocaleString() }}원 </span>
+          </h5>
         </div>
         <table class="table">
           <thead>
@@ -65,7 +83,10 @@
   </div>
 
   <div class="summary">
-    <h2>총 잔액: {{ balance }}</h2>
+    <h2 class="text-success fw-bold d-flex align-items-center justify-content-center gap-2">
+      <i class="bi bi-cash-coin"></i>
+      총 잔액: {{ balance.toLocaleString() }}원
+    </h2>
   </div>
 
   <button class="btn btn-primary rounded-circle shadow btn-floating" @click="openModal">+</button>
@@ -122,7 +143,7 @@ const requestAPI = async () => {
 }
 requestAPI()
 
-const incomeListTotal = computed(() => {
+const incomeTotal = computed(() => {
   return incomeList.value.reduce((sum, item) => sum + Number(item.amount), 0)
 })
 
@@ -130,7 +151,7 @@ const expenseTotal = computed(() => {
   return expenseList.value.reduce((sum, item) => sum + Number(item.amount), 0)
 })
 
-const balance = computed(() => incomeListTotal.value - expenseTotal.value)
+const balance = computed(() => incomeTotal.value - expenseTotal.value)
 
 //add detail page
 const userStore = useUserStore()
@@ -154,6 +175,7 @@ const openModal = () => {
 
 .card {
   width: 700px;
+  min-height: 300px;
   border: 1px solid #ccc;
   border-radius: 12px;
   padding: 20px;
@@ -186,5 +208,6 @@ const openModal = () => {
   display: flex;
   margin: 0 auto;
   justify-content: center;
+  gap: 20px;
 }
 </style>
