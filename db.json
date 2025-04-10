@@ -34,6 +34,13 @@
       "password": "aa",
       "role": "user",
       "id": "s7rau6Y"
+    },
+    {
+      "id": "ad16",
+      "username": "최준혁",
+      "email": "joons73@naver.com",
+      "password": "thomas4u@",
+      "role": "user"
     }
   ],
   "budgetBook": [
@@ -86,6 +93,16 @@
       "transactionType": "expense",
       "category": "식비",
       "memo": "adsfsafd"
+    },
+    {
+      "id": "4f80",
+      "userId": "ad16",
+      "createdDate": "2024-11-14",
+      "updatedDate": "2025-04-10",
+      "amount": 100000,
+      "transactionType": "income",
+      "category": "용돈",
+      "memo": "부모님께 받음"
     }
   ],
   "category": [
