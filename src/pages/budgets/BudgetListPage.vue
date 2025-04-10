@@ -115,13 +115,19 @@
       </li>
     </ul>
   </div>
+
+  <button class="btn btn-primary rounded-circle shadow btn-floating" @click="openModal">+</button>
+
+  <AddBudgetDetail :showModal="showModal" :userId="userId" @close="showModal = false" />
 </template>
 
 <script setup>
 import BudgetListItem from '@/components/budgetItem/BudgetListItem.vue'
 import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useBudgetStore } from '@/stores/budget'
+import { useUserStore } from '@/stores/userStore'
+import AddBudgetDetail from '@/components/modal/AddBudgetDetail.vue'
 const budgetStore = useBudgetStore()
 
 const router = useRouter()
@@ -144,11 +150,31 @@ const resetFilter = () => {
   budgetStore.selectedType = ''
   budgetStore.selectedYear = ''
 }
+
+//add detail page
+const userStore = useUserStore()
+const showModal = ref(false)
+const userId = ref(null)
+const openModal = () => {
+  userStore.getLoggedUser()
+  userId.value = userStore.loggedUser.id
+  showModal.value = true
+}
 </script>
 
 <style scoped>
 ul {
   list-style: none;
+}
+
+.btn-floating {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+  z-index: 999;
 }
 
 .pointer {
