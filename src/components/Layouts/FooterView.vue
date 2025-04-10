@@ -2,7 +2,7 @@
   <footer class="bg-gray-200 text-gray-800 mt-3 py-4">
     <div class="container mx-auto text-left">
       <p style="font-family: sans-serif">
-        Copyright © 2025 TEAM.2 All Rights Reserved.
+        Copyright © 2025 MoneyManager All Rights Reserved.
         <!-- 아이콘 비활성화 -->
         <span style="float: right"
           ><a href="#" aria-label="Instagram">
