@@ -123,6 +123,16 @@
       "transactionType": "expense",
       "category": "유흥",
       "memo": "nnh"
+    },
+    {
+      "id": "4f80",
+      "userId": "ad16",
+      "createdDate": "2024-11-14",
+      "updatedDate": "2025-04-10",
+      "amount": 100000,
+      "transactionType": "income",
+      "category": "용돈",
+      "memo": "부모님께 받음"
     }
   ],
   "category": [

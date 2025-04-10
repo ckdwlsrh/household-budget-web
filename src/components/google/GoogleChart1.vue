@@ -23,7 +23,7 @@ const chartData = computed(() => {
   const formatDate = (isoString) => isoString.split('T')[0]
 
   props.income.forEach((item) => {
-    const date = formatDate(item.updatedDate)
+    const date = formatDate(item.createdDate)
     incomeMap[date] = (incomeMap[date] || 0) + Number(item.amount)
   })
 
