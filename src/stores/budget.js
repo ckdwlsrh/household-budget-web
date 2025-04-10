@@ -18,6 +18,7 @@ export const useBudgetStore = defineStore('budget', () => {
   const selectedType = ref('')
   const selectedCategory = ref('')
   const selectedDate = ref('')
+  const selectedYear = ref('')
   const selectedMonth = ref('')
   // 월 옵션 (문자열 형식: '01', '02', ...)
   const availableMonths = ref([
@@ -52,6 +53,12 @@ export const useBudgetStore = defineStore('budget', () => {
     })
   })
 
+  // 연도 옵션
+  const availableYear = computed(() => {
+    const set = new Set(transactions.value.map((t) => t.createdDate.slice(0, 4)))
+    return Array.from(set)
+  })
+
   // 카테고리 옵션 (중복 제거)
   const categoryOptions = computed(() => {
     const set = new Set(transactions.value.map((t) => t.category))
@@ -70,6 +77,9 @@ export const useBudgetStore = defineStore('budget', () => {
       const matchUser = userStore.loggedUser ? item.userId === userStore.loggedUser.id : false
       const matchType = selectedType.value ? item.transactionType === selectedType.value : true
       const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
+      const matchYear = selectedYear.value
+        ? item.createdDate.slice(0, 5) === selectedYear.value
+        : true
       const matchMonth = selectedMonth.value
         ? item.createdDate.slice(5, 7) === selectedMonth.value
         : true
@@ -78,7 +88,7 @@ export const useBudgetStore = defineStore('budget', () => {
           typeof item.createdDate === 'string' &&
           item.createdDate.slice(0, 10) === selectedDate.value
         : true
-      return matchUser && matchType && matchCategory && matchMonth && matchDate
+      return matchUser && matchType && matchCategory && matchYear && matchMonth && matchDate
     })
   })
 
@@ -159,13 +169,13 @@ export const useBudgetStore = defineStore('budget', () => {
     transactionsDetail,
     selectedType,
     selectedCategory,
-    selectedDate,
+    selectedYear,
     selectedMonth,
+    selectedDate,
+    availableYear,
     availableMonths,
     currentPage,
     itemsPerPage,
-    // sortField,
-    // sortOrder,
     // computed 값들
     sortedDescList,
     categoryOptions,

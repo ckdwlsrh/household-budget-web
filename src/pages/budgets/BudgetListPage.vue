@@ -17,6 +17,13 @@
           </option>
         </select>
 
+        <select v-model="budgetStore.selectedYear">
+          <option value="">전체(년)</option>
+          <option v-for="year in budgetStore.availableYear" :key="year" :value="year">
+            {{ year }}
+          </option>
+        </select>
+
         <select v-model="budgetStore.selectedMonth">
           <option value="">전체(월)</option>
           <option v-for="mon in budgetStore.availableMonths" :key="mon" :value="mon">
@@ -111,79 +118,6 @@ const handlrDetail = (itemId) => {
   router.push(`/budgetDetail/${itemId}`)
 }
 
-//-------------원본 리스트(Store활용으로 인해 주석처리)--------------//
-// const transactions = ref([])
-// const fetchTransactions = async () => {
-//   try {
-//     const result = await getBudgetBook()
-//     transactions.value = result
-//   } catch (e) {
-//     console.error('[ERROR]', e)
-//   }
-// }
-
-// //------------------필터 리스트 관련---------------------//
-
-// // 필터 조건
-// const selectedType = ref('')
-// const selectedCategory = ref('')
-// const selectedDate = ref('')
-
-// // 필터 조건 추출
-// const categoryOptions = computed(() => {
-//   const set = new Set(transactions.value.map((t) => t.category))
-//   return Array.from(set)
-// })
-
-// const typeOptions = computed(() => {
-//   const set = new Set(transactions.value.map((t) => t.transactionType))
-//   return Array.from(set)
-// })
-
-// // 필터링된 목록
-// const filteredList = computed(() => {
-//   return transactions.value.filter((item) => {
-//     const matchType = selectedType.value ? item.transactionType === selectedType.value : true
-//     const matchCategory = selectedCategory.value ? item.category === selectedCategory.value : true
-//     const matchDate = selectedDate.value
-//       ? item.createdDate &&
-//         typeof item.createdDate === 'string' &&
-//         item.createdDate.slice(0, 10) === selectedDate.value
-//       : true
-//     return matchType && matchCategory && matchDate
-//   })
-// })
-
-// // 필터별 합산 금액
-// const totalAmount = computed(() => {
-//   return filteredList.value.reduce((sum, item) => sum + item.amount, 0)
-// })
-
-// //--------------------페이지네이션-----------------------//
-// const currentPage = ref(1)
-// const itemsPerPage = 5
-// const totalPages = computed(() => {
-//   return Math.ceil(filteredList.value.length / itemsPerPage)
-// })
-// const paginatedList = computed(() => {
-//   const start = (currentPage.value - 1) * itemsPerPage
-//   const end = start + itemsPerPage
-//   return filteredList.value.slice(start, end)
-// })
-// const goToPage = (page) => {
-//   if (page >= 1 && page <= totalPages.value) {
-//     currentPage.value = page
-//   }
-// }
-
-// //----------------상세 페이지 관련----------------------//
-
-// const router = useRouter()
-// const handlrDetail = (itemId) => {
-//   router.push(`/budgetDetail/${itemId}`)
-// }
-
-//-------------------------------------------//
 // Mounted 관련
 onMounted(() => {
   budgetStore.fetchTransactions()
