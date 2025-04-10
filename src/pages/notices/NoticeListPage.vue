@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div style="padding: 30px; margin-top: 30px">
-      <h1 style="text-align: center">공지사항</h1>
+      <h1 style="text-align: center">공지 사항</h1>
     </div>
     <!--  -->
     <table class="notice-table table table-hover">
