@@ -116,7 +116,6 @@ export const useUserStore = defineStore('user', () => {
       loggedUser.value = JSON.parse(storedUser)
     } else {
       alert('로그인을 해주세요')
-      isLoggedIn.value = false
       router.push('/login')
     }
   }
@@ -153,9 +152,20 @@ export const useUserStore = defineStore('user', () => {
     router.push('/login')
   }
 
+  const checkLoggedUser = () => {
+    const storedUser = localStorage.getItem('loggedUser')
+    if (storedUser) {
+      loggedUser.value = JSON.parse(storedUser)
+      isLoggedIn.value = true
+    } else {
+      isLoggedIn.value = false
+    }
+  }
+
   //회원탈퇴 핸들러
   const withdrawHandler = async () => {
     if (!loggedUser.value) {
+      alert('로그인이 필요합니다.')
       return false
     }
 
@@ -205,6 +215,7 @@ export const useUserStore = defineStore('user', () => {
     loggedUser,
     isLoggedIn,
 
+    checkLoggedUser,
     isValidEmail,
     getUsers,
     loginHandler,
