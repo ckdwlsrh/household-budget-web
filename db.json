@@ -34,13 +34,6 @@
       "password": "aa",
       "role": "user",
       "id": "s7rau6Y"
-    },
-    {
-      "id": "ad16",
-      "username": "최준혁",
-      "email": "joons73@naver.com",
-      "password": "thomas4u@",
-      "role": "user"
     }
   ],
   "budgetBook": [
@@ -125,16 +118,6 @@
       "memo": "nnh"
     },
     {
-      "id": "4f80",
-      "userId": "ad16",
-      "createdDate": "2024-11-14",
-      "updatedDate": "2025-04-10",
-      "amount": 100000,
-      "transactionType": "income",
-      "category": "용돈",
-      "memo": "부모님께 받음"
-    },
-    {
       "id": "627a",
       "userId": "ad16",
       "createdDate": "2025-04-01",
@@ -163,36 +146,6 @@
       "transactionType": "expense",
       "category": "식비",
       "memo": "식비"
-    },
-    {
-      "id": "afb1",
-      "userId": "ad16",
-      "createdDate": "2025-04-03",
-      "updatedDate": "2025-04-10",
-      "amount": 124124,
-      "transactionType": "expense",
-      "category": "이자",
-      "memo": "124124"
-    },
-    {
-      "id": "6a34",
-      "userId": "ad16",
-      "createdDate": "2025-04-06",
-      "updatedDate": "2025-04-10",
-      "amount": 124124,
-      "transactionType": "expense",
-      "category": "식비",
-      "memo": "124124124"
-    },
-    {
-      "id": "0a8c",
-      "userId": "ad16",
-      "createdDate": "2025-04-10",
-      "updatedDate": "2025-04-10",
-      "amount": 124124,
-      "transactionType": "expense",
-      "category": "유흥",
-      "memo": "124"
     }
   ],
   "category": [
