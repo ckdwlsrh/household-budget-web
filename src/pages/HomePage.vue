@@ -196,8 +196,8 @@ const openModal = () => {
 
 .btn-floating {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 3rem;
+  right: 3rem;
   width: 3.5rem;
   height: 3.5rem;
   font-size: 1.5rem;
