@@ -62,7 +62,7 @@
           </thead>
           <tbody>
             <tr v-for="item in incomeList" :key="item.id">
-              <td>{{ item.updatedDate }}</td>
+              <td>{{ item.createdDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
               <td>{{ item.memo }}</td>
@@ -90,7 +90,7 @@
           </thead>
           <tbody>
             <tr v-for="item in expenseList" :key="item.id">
-              <td>{{ item.updatedDate }}</td>
+              <td>{{ item.createdDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
               <td>{{ item.memo }}</td>
