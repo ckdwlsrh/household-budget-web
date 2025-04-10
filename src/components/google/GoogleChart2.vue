@@ -1,5 +1,10 @@
 <template>
-  <div id="net_profit_chart" style="width: 650px; height: 400px"></div>
+  <div>
+    <div id="net_profit_chart" style="width: 650px; height: 400px"></div>
+    <div v-if="chartData.length === 0" class="text-center text-gray-400 mt-2">
+      표시할 데이터가 없습니다.
+    </div>
+  </div>
 </template>
 
 <script setup>
