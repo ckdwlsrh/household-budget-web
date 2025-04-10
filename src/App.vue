@@ -32,4 +32,13 @@ const userId = computed(() => userStore.loggedUser?.id)
 // })
 </script>
 
-<style scoped></style>
+<style>
+@font-face {
+  font-family: 'OnGleafKonkont';
+  src: url('@/assets/fonts/온글잎콘콘체.ttf') format('truetype');
+}
+
+div {
+  font-family: 'OnGleafKonkont', sans-serif;
+}
+</style>
