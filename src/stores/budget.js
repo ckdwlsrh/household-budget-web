@@ -20,6 +20,8 @@ export const useBudgetStore = defineStore('budget', () => {
   const selectedDate = ref('')
   const selectedYear = ref('')
   const selectedMonth = ref('')
+  const availableIncomeType = ref(['월급', '용돈', '이자', '기타'])
+  const availableExpenseType = ref(['식비', '교통비', '유흥', '기타'])
   // 월 옵션 (문자열 형식: '01', '02', ...)
   const availableMonths = ref([
     '01',
@@ -179,6 +181,8 @@ export const useBudgetStore = defineStore('budget', () => {
     // computed 값들
     sortedDescList,
     categoryOptions,
+    availableIncomeType,
+    availableExpenseType,
     typeOptions,
     filteredList,
     totalAmount,

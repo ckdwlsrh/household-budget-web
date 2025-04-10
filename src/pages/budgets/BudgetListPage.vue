@@ -12,7 +12,29 @@
           </select>
         </div>
         <div class="col-md-2">
-          <select class="form-select" v-model="budgetStore.selectedCategory">
+          <select
+            v-if="budgetStore.selectedType === 'income'"
+            class="form-select"
+            v-model="budgetStore.selectedCategory"
+          >
+            <option value="">수입 카테고리</option>
+            <option v-for="cat in budgetStore.availableIncomeType" :key="cat" :value="cat">
+              {{ cat }}
+            </option>
+          </select>
+
+          <select
+            v-else-if="budgetStore.selectedType === 'expense'"
+            class="form-select"
+            v-model="budgetStore.selectedCategory"
+          >
+            <option value="">지출 카테고리</option>
+            <option v-for="cat in budgetStore.availableExpenseType" :key="cat" :value="cat">
+              {{ cat }}
+            </option>
+          </select>
+
+          <select v-else class="form-select" v-model="budgetStore.selectedCategory">
             <option value="">전체 카테고리</option>
             <option v-for="cat in budgetStore.categoryOptions" :key="cat" :value="cat">
               {{ cat }}
