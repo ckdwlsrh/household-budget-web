@@ -1,39 +1,39 @@
 <template>
   <div class="container d-flex justify-content-center align-items-center full-height">
+    <img src="../../assets/img/kb.png" class="kbImg" />
     <div class="col-md-5 mx-auto">
       <div class="myform">
         <div class="mb-3">
           <div class="col-md-12 text-center">
-            <h1>Login</h1>
+            <h1>로그인</h1>
           </div>
         </div>
         <div class="form-group">
-          <label>Email</label>
+          <label>이메일</label>
           <input
             type="email"
             class="form-control"
-            placeholder="e-mail"
+            placeholder="이메일을 입력해주세요"
             v-model="userStore.email"
             @keyup.enter="userStore.loginHandler"
             required
           />
         </div>
         <div class="form-group">
-          <label>Password</label>
+          <label>비밀번호</label>
           <input
             type="password"
             class="form-control"
-            placeholder="password"
+            placeholder="비밀번호를 입력해주세요"
             v-model="userStore.password"
             @keyup.enter="userStore.loginHandler"
             required
           />
         </div>
-        <br />
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center mt-2">
           <button
             type="submit"
-            class="btn btn-block mybtn btn-primary tx-tfm"
+            class="btn btn-block mybtn btn-outline-dark tx-tfm"
             @click.prevent="userStore.loginHandler"
           >
             로그인
@@ -47,12 +47,15 @@
         </div>
         <div class="form-group">
           <p class="text-center">
-            <button class="btn btn-block mybtn btn-primary tx-tfm" @click="userStore.goToSignUp">
+            <button
+              class="btn btn-block mybtn btn-outline-dark tx-tfm"
+              @click="userStore.goToSignUp"
+            >
               회원가입
             </button>
           </p>
         </div>
-        <p class="text-end mt-4 fs-6">
+        <p class="text-end mt-3 fs-6">
           <small>
             비밀번호를 까먹으셨나요?
             <button type="button" class="btn btn-link p-0" @click="openModal">비밀번호 찾기</button>
@@ -168,6 +171,14 @@ const searchPassword = async () => {
 </script>
 
 <style scoped>
+.container {
+  background-color: #faf8e7;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
 a {
   text-decoration: none !important;
 }
@@ -194,6 +205,10 @@ a {
 
 .mybtn {
   border-radius: 50px;
+  padding: 0.2rem 1rem;
+  font-weight: 500;
+  border-width: 1px;
+  transition: all 0.3s ease;
 }
 
 .login-or {
@@ -217,5 +232,43 @@ a {
 .hr-or {
   height: 1px;
   margin: 0 !important;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: inline-block;
+  color: #333;
+  font-size: 16px;
+}
+
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0.75rem 1rem;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 15px;
+}
+
+.form-control::placeholder {
+  color: #aaa;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #ffb300;
+  box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.25);
+  background-color: #fff;
+}
+
+.kbImg {
+  height: 150px;
+  width: auto;
+  margin-bottom: 2rem;
+  margin-right: 1.5rem;
 }
 </style>
