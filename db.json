@@ -104,7 +104,7 @@
       "category": "용돈",
       "memo": "부모님께 받음"
     },
-     {
+    {
       "id": "792c",
       "userId": "db0d",
       "createdDate": "2025-04-10",
@@ -133,6 +133,66 @@
       "transactionType": "income",
       "category": "용돈",
       "memo": "부모님께 받음"
+    },
+    {
+      "id": "627a",
+      "userId": "ad16",
+      "createdDate": "2025-04-01",
+      "updatedDate": "2025-04-10",
+      "amount": 1000,
+      "transactionType": "income",
+      "category": "이자",
+      "memo": "은행이자"
+    },
+    {
+      "id": "8cea",
+      "userId": "ad16",
+      "createdDate": "2025-04-01",
+      "updatedDate": "2025-04-10",
+      "amount": 1000000,
+      "transactionType": "income",
+      "category": "월급",
+      "memo": "월급"
+    },
+    {
+      "id": "ddf1",
+      "userId": "ad16",
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 50000,
+      "transactionType": "expense",
+      "category": "식비",
+      "memo": "식비"
+    },
+    {
+      "id": "afb1",
+      "userId": "ad16",
+      "createdDate": "2025-04-03",
+      "updatedDate": "2025-04-10",
+      "amount": 124124,
+      "transactionType": "expense",
+      "category": "이자",
+      "memo": "124124"
+    },
+    {
+      "id": "6a34",
+      "userId": "ad16",
+      "createdDate": "2025-04-06",
+      "updatedDate": "2025-04-10",
+      "amount": 124124,
+      "transactionType": "expense",
+      "category": "식비",
+      "memo": "124124124"
+    },
+    {
+      "id": "0a8c",
+      "userId": "ad16",
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 124124,
+      "transactionType": "expense",
+      "category": "유흥",
+      "memo": "124"
     }
   ],
   "category": [

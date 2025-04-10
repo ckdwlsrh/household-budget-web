@@ -28,7 +28,7 @@ const chartData = computed(() => {
   })
 
   props.expense.forEach((item) => {
-    const date = formatDate(item.updatedDate)
+    const date = formatDate(item.createdDate)
     expenseMap[date] = (expenseMap[date] || 0) + Number(item.amount)
   })
 
