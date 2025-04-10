@@ -3,7 +3,7 @@
     <Header v-if="userId"></Header>
     <Nav v-if="userId"></Nav>
     <RouterView></RouterView>
-    <Footer></Footer>
+    <Footer v-if="userId"></Footer>
   </div>
 </template>
 

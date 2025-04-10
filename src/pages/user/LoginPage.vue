@@ -3,27 +3,27 @@
     <div class="col-md-5 mx-auto">
       <div class="myform">
         <div class="mb-3">
-          <div class="col-md-12 text-center">
-            <h1>Login</h1>
-          </div>
+          <div class="col-md-12 text-center h3 fw-bold">머니 매니저 로그인</div>
         </div>
-        <div class="form-group">
-          <label>Email</label>
+        <div class="input-group input-group-lg mb-3">
+          <span class="input-group-text">
+            <i class="fa-regular fa-envelope"></i>
+          </span>
           <input
             type="email"
             class="form-control"
-            placeholder="e-mail"
+            placeholder="이메일을 입력해 주세요"
             v-model="userStore.email"
             @keyup.enter="userStore.loginHandler"
             required
           />
         </div>
-        <div class="form-group">
-          <label>Password</label>
+        <div class="input-group input-group-lg">
+          <span class="input-group-text"><i class="fa-solid fa-lock"></i> </span>
           <input
             type="password"
             class="form-control"
-            placeholder="password"
+            placeholder="비밀번호를 입력해 주세요"
             v-model="userStore.password"
             @keyup.enter="userStore.loginHandler"
             required
@@ -33,8 +33,9 @@
         <div class="col-md-12 text-center">
           <button
             type="submit"
-            class="btn btn-block mybtn btn-primary tx-tfm"
+            class="btn btn-block mybtn btn-dark fw-bold"
             @click.prevent="userStore.loginHandler"
+            :class="{ disabled: isLoginReady }"
           >
             로그인
           </button>
@@ -47,70 +48,22 @@
         </div>
         <div class="form-group">
           <p class="text-center">
-            <button class="btn btn-block mybtn btn-primary tx-tfm" @click="userStore.goToSignUp">
+            <button class="btn btn-block mybtn btn-primary fw-bold" @click="userStore.goToSignUp">
               회원가입
             </button>
           </p>
         </div>
         <p class="text-end mt-4 fs-6">
           <small>
-            비밀번호를 까먹으셨나요?
-            <button type="button" class="btn btn-link p-0" @click="openModal">비밀번호 찾기</button>
+            <span class="text-secondary me-1">비밀번호를 까먹으셨나요?</span>
+            <button type="button" class="btn btn-link btn-sm" @click="openModal">
+              비밀번호 찾기
+            </button>
           </small>
         </p>
 
         <!-- 모달 -->
-        <div
-          v-if="showModal"
-          class="modal fade"
-          id="removeUser"
-          tabindex="-1"
-          aria-hidden="true"
-          ref="modalEl"
-        >
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title" id="removeUserLabel">비밀번호 찾기</h3>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  @click="closeModal"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="username"
-                    v-model="searchName"
-                    @keyup.enter="searchPassword"
-                    required
-                  />
-                </div>
-
-                <br />
-                <div class="form-group">
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder="e-mail"
-                    v-model="searchEmail"
-                    @keyup.enter="searchPassword"
-                    required
-                  />
-                </div>
-                <br />
-                <div>비밀번호: {{ result }}</div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" @click="searchPassword">찾기</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <FindPassword :showModal="showModal" @close="closeModal"></FindPassword>
         <!--  -->
       </div>
     </div>
@@ -118,52 +71,25 @@
 </template>
 
 <script setup>
-import { getUserByUsernameAndEmail } from '@/api/user/userService'
+import FindPassword from '@/components/modal/FindPassword.vue'
 import { useUserStore } from '@/stores/userStore'
-import { Modal } from 'bootstrap/dist/js/bootstrap.min'
-import { nextTick, ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const showModal = ref(false)
-const modalEl = ref(null)
-let modalInstance = null
-const searchName = ref('')
-const searchEmail = ref('')
-const result = ref('')
 
 const userStore = useUserStore()
+//로그인 버튼 disabled확인
+const isLoginReady = computed(() => {
+  if (userStore.password.length > 0 && userStore.email.length > 0) return false
+  else return true
+})
 
-const openModal = async () => {
+const openModal = () => {
   showModal.value = true
-  await nextTick()
-
-  if (modalEl.value) {
-    modalInstance = new Modal(modalEl.value)
-    modalInstance.show()
-  }
 }
 
 const closeModal = () => {
-  if (modalInstance) {
-    modalInstance.hide()
-  }
   showModal.value = false
-  showModal.value = false
-  searchName.value = ''
-  searchEmail.value = ''
-  result.value = ''
-}
-
-const searchPassword = async () => {
-  try {
-    const findUser = await getUserByUsernameAndEmail(searchName.value, searchEmail.value)
-
-    if (findUser) {
-      result.value = findUser[0].password
-    }
-  } catch (error) {
-    result.value = '사용자를 찾을 수 없습니다. (이름, 이메일 확인)'
-    console.error('에러 발생:', error)
-  }
 }
 </script>
 
@@ -186,10 +112,6 @@ a {
   border-radius: 1.1rem;
   max-width: 500px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.tx-tfm {
-  text-transform: uppercase;
 }
 
 .mybtn {
