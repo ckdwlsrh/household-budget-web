@@ -1,0 +1,234 @@
+{
+  "user": [
+    {
+      "id": "7014",
+      "username": "고창진",
+      "email": "ckdwls6504@gmail.com",
+      "password": "test",
+      "role": "admin"
+    },
+    {
+      "username": "test",
+      "email": "test@gmail.com",
+      "password": "test",
+      "role": "user",
+      "id": "uRdvskV"
+    }
+  ],
+  "budgetBook": [
+    {
+      "id": "3de3",
+      "userId": "7014",
+      "createdDate": "2024-12-10",
+      "updatedDate": "2025-04-10",
+      "amount": 2,
+      "transactionType": "income",
+      "category": "월급",
+      "memo": "KB월급"
+    },
+    {
+      "id": "b939",
+      "userId": "7014",
+      "createdDate": "2024-12-11",
+      "updatedDate": "2025-04-10",
+      "amount": 1,
+      "transactionType": "expense",
+      "category": "식비",
+      "memo": "제육덮밥"
+    },
+    {
+      "id": "49cf",
+      "userId": "7014",
+      "createdDate": "2025-03-10",
+      "updatedDate": "2025-04-10",
+      "amount": 10,
+      "transactionType": "income",
+      "category": "용돈",
+      "memo": "생활용돈"
+    },
+    {
+      "id": "5155",
+      "userId": "7014",
+      "createdDate": "2025-03-15",
+      "updatedDate": "2025-04-10",
+      "amount": 1,
+      "transactionType": "expense",
+      "category": "교통비",
+      "memo": "버스"
+    },
+    {
+      "id": "e134",
+      "userId": "7014",
+      "createdDate": "2025-03-09",
+      "updatedDate": "2025-04-10",
+      "amount": 2,
+      "transactionType": "expense",
+      "category": "교통비",
+      "memo": "지하철"
+    },
+    {
+      "id": "3a95",
+      "userId": "7014",
+      "createdDate": "2025-04-01",
+      "updatedDate": "2025-04-10",
+      "amount": 3,
+      "transactionType": "expense",
+      "category": "유흥",
+      "memo": "과금11"
+    },
+    {
+      "id": "cac3",
+      "userId": "7014",
+      "createdDate": "2025-04-05",
+      "updatedDate": "2025-04-10",
+      "amount": 2,
+      "transactionType": "expense",
+      "category": "유흥",
+      "memo": "과금22"
+    },
+    {
+      "id": "eb42",
+      "userId": "7014",
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 2,
+      "transactionType": "expense",
+      "category": "공과금",
+      "memo": "전기세"
+    },
+    {
+      "id": "7371",
+      "userId": "7014",
+      "createdDate": "2025-04-07",
+      "updatedDate": "2025-04-10",
+      "amount": 5,
+      "transactionType": "income",
+      "category": "이자",
+      "memo": "은행이자"
+    },
+    {
+      "id": "DDBY0jh",
+      "userId": "7014",
+      "createdDate": "2025-04-01",
+      "updatedDate": "2025-04-10",
+      "amount": 20,
+      "transactionType": "expense",
+      "category": "교통비",
+      "memo": "버스"
+    },
+    {
+      "userId": "7014",
+      "createdDate": "2025-04-01",
+      "updatedDate": "2025-04-10",
+      "amount": 34124,
+      "transactionType": "income",
+      "category": "이자",
+      "memo": "이자",
+      "id": "WvisJBr"
+    },
+    {
+      "userId": "7014",
+      "createdDate": "2025-04-10",
+      "updatedDate": "2025-04-10",
+      "amount": 22,
+      "transactionType": "expense",
+      "category": "기타",
+      "memo": "미용",
+      "id": "gda68a_"
+    },
+    {
+      "userId": "7014",
+      "createdDate": "2025-04-05",
+      "updatedDate": "2025-04-10",
+      "amount": 223,
+      "transactionType": "income",
+      "category": "용돈",
+      "memo": "test",
+      "id": "KruUs_m"
+    },
+    {
+      "userId": "7014",
+      "createdDate": "2025-03-10",
+      "updatedDate": "2025-04-10",
+      "amount": 33,
+      "transactionType": "expense",
+      "category": "공과금",
+      "memo": "전기세",
+      "id": "7Mhsh85"
+    },
+    {
+      "userId": "7014",
+      "createdDate": "2025-03-25",
+      "updatedDate": "2025-04-10",
+      "amount": 35,
+      "transactionType": "expense",
+      "category": "식비",
+      "memo": "라멘",
+      "id": "jeWCUvw"
+    },
+    {
+      "userId": "7014",
+      "createdDate": "2025-02-25",
+      "updatedDate": "2025-04-10",
+      "amount": 33,
+      "transactionType": "income",
+      "category": "기타",
+      "memo": "주식매도",
+      "id": "mBf1oOf"
+    }
+  ],
+  "category": [
+    {
+      "id": "c001",
+      "item": "월급"
+    },
+    {
+      "id": "c002",
+      "item": "용돈"
+    },
+    {
+      "id": "c003",
+      "item": "이자"
+    },
+    {
+      "id": "c004",
+      "item": "식비"
+    },
+    {
+      "id": "c005",
+      "item": "교통비"
+    },
+    {
+      "id": "c006",
+      "item": "유흥"
+    },
+    {
+      "id": "c007",
+      "item": "공과금"
+    },
+    {
+      "id": "c008",
+      "item": "기타"
+    }
+  ],
+  "notices": [
+    {
+      "id": "n001",
+      "title": "서비스 점검 안내",
+      "desc": "4월 10일 00시부터 02시까지 서버 점검이 진행됩니다.",
+      "createdDate": "2025-04-08T10:00:00Z"
+    },
+    {
+      "id": "n002",
+      "title": "신규 기능 출시",
+      "desc": "가계부에 통계 차트 기능이 추가되었습니다. 많은 이용 바랍니다!",
+      "createdDate": "2025-04-07T15:30:00Z"
+    },
+    {
+      "id": "n003",
+      "title": "이벤트 당첨자 발표",
+      "desc": "3월 가계부 작성 이벤트 당첨자를 확인하세요!",
+      "createdDate": "2025-04-05T08:45:00Z"
+    }
+  ]
+}

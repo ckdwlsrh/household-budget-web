@@ -74,7 +74,7 @@
               v-for="item in budgetStore.paginatedList"
               :key="item.id"
               :transactions="item"
-              @handlrDetail="handlrDetail"
+              @handlerDetail="handlerDetail"
               class="pointer"
             ></BudgetListItem>
           </tbody>
@@ -97,7 +97,7 @@
       </div>
     </div>
     <!-- 페이지네이션 UI -->
-    <!-- 페이지가 10이상 넘어가는경우 ..? -->
+    <!-- 페이지가 3이상 넘어가는경우 ..? -->
     <ul class="pagination mt-4 justify-content-center">
       <li class="page-item" :class="{ disabled: budgetStore.currentPage === 1 }">
         <button class="page-link" @click="budgetStore.goToPage(budgetStore.currentPage - 1)">
@@ -141,7 +141,7 @@ const budgetStore = useBudgetStore()
 const router = useRouter()
 
 // 상세 페이지 핸들러 메소드
-const handlrDetail = (itemId) => {
+const handlerDetail = (itemId) => {
   router.push(`/budgetDetail/${itemId}`)
 }
 
@@ -171,21 +171,24 @@ const resetFilter = () => {
   budgetStore.selectedYear = ''
 }
 //페이지네이션 슬라이딩 윈도우 방식
-const pagesToShow = 10
+const pagesToShow = 3
 const halfOfPages = Math.floor(pagesToShow / 2)
+console.log(halfOfPages)
 
 const pageNumbers = computed(() => {
   let start = budgetStore.currentPage - halfOfPages
-  let end = budgetStore.currentPage + halfOfPages - 1
+  let end = budgetStore.currentPage + halfOfPages
+  console.log(start, end)
   if (start < 1) {
     start = 1
     end = pagesToShow
   }
+  console.log(start, end)
   if (end > budgetStore.totalPages) {
     end = budgetStore.totalPages
     start = Math.max(1, end - pagesToShow + 1)
   }
-
+  console.log(start, end)
   const pages = []
   for (let i = start; i <= end; i++) {
     pages.push(i)
