@@ -1,6 +1,6 @@
 <template>
   <tr @click="emit('handlrDetail', props.transactions.id)">
-    <td>{{ transactions.transactionType }}</td>
+    <td>{{ transactions.transactionType === 'income' ? '수입' : '지출' }}</td>
     <td>{{ transactions.category }}</td>
     <td>{{ transactions.amount }}</td>
     <td>{{ transactions.createdDate }}</td>
