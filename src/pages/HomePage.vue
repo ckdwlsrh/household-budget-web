@@ -61,7 +61,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in incomeList" :key="item.id">
+            <tr v-for="item in incomeList.slice(0, 5)" :key="item.id">
               <td>{{ item.createdDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
@@ -89,7 +89,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in expenseList" :key="item.id">
+            <tr v-for="item in expenseList.slice(0, 5)" :key="item.id">
               <td>{{ item.createdDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
