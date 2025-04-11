@@ -61,7 +61,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in incomeList.slice(0, 5)" :key="item.id">
+            <tr v-for="item in sortedIncomeList.slice(0, 5)" :key="item.id">
               <td>{{ item.createdDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
@@ -89,7 +89,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in expenseList.slice(0, 5)" :key="item.id">
+            <tr v-for="item in sortedexpenseList.slice(0, 5)" :key="item.id">
               <td>{{ item.createdDate }}</td>
               <td>{{ item.category }}</td>
               <td>{{ item.amount }}</td>
@@ -108,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useHomePageStore } from '@/stores/homePageStore'
 import { useUserStore } from '@/stores/userStore'
@@ -120,6 +120,18 @@ const hpStore = useHomePageStore()
 const { month, year, incomeList, expenseList, incomeTotal, expenseTotal, balance } =
   storeToRefs(hpStore)
 const { previousMonth, nextMonth, previousYear, nextYear, fetchBudgetData } = hpStore
+
+const sortedIncomeList = computed(() => {
+  return incomeList.value.slice().sort((a, b) => {
+    return new Date(b.createdDate) - new Date(a.createdDate) // 최신순 정렬
+  })
+})
+
+const sortedexpenseList = computed(() => {
+  return expenseList.value.slice().sort((a, b) => {
+    return new Date(b.createdDate) - new Date(a.createdDate) // 최신순 정렬
+  })
+})
 
 watch([month, year], () => {
   fetchBudgetData()
