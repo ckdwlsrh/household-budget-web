@@ -8,6 +8,7 @@ import BudgetDetailPage from '@/pages/budgets/BudgetDetailPage.vue'
 import UpdateBudgetDetailPage from '@/pages/budgets/UpdateBudgetDetailPage.vue'
 import AddNoticesPage from '@/pages/notices/AddNoticesPage.vue'
 import NoticeListPage from '@/pages/notices/NoticeListPage.vue'
+import NotFound from '@/components/notFound/NotFound.vue'
 // import { useUserStore } from '@/stores/userStore'
 
 const router = createRouter({
@@ -59,6 +60,7 @@ const router = createRouter({
       name: 'noticeList',
       component: NoticeListPage,
     },
+    { path: '/:catchAll(.*)', component: NotFound },
   ],
 })
 
